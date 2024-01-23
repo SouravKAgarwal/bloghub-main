@@ -12,7 +12,7 @@ import routes from "./routes/index.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8800;
+const PORT = 8800;
 
 dbConnection();
 
