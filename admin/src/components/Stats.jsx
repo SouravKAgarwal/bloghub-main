@@ -17,31 +17,31 @@ const Stats = ({ dt }) => {
       title: "TOTAL POST",
       icon: "post",
       value: formatNumber(dt?.totalPosts ?? 0),
-      diff: 34,
+      // diff:
     },
     {
       title: "FOLLOWERS",
       icon: "users",
       value: formatNumber(dt?.followers ?? 0),
-      diff: -13,
+      // diff:
     },
     {
       title: "TOTAL VIEWS",
       icon: "view",
       value: formatNumber(dt?.totalViews ?? 0),
-      diff: 18,
+      // diff:
     },
     {
       title: "TOTAL WRITERS",
       icon: "user",
       value: formatNumber(dt?.totalWriters ?? 0),
-      diff: -30,
+      // diff:
     },
   ];
 
   const stats = data?.map((stat) => {
     const Icon = icons[stat.icon];
-    const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
+    // const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
 
     return (
       <Paper className="text-black" withBorder p="md" key={stat.title}>
@@ -51,7 +51,7 @@ const Stats = ({ dt }) => {
         </Group>
         <Group align="flex-end" gap="xs" mt={25}>
           <Text className="text-2xl 2xl:text-4xl font-serif">{stat.value}</Text>
-          <Text
+          {/* <Text
             c={stat.diff > 0 ? "teal" : "red"}
             fz="sm"
             fw="500"
@@ -59,7 +59,7 @@ const Stats = ({ dt }) => {
           >
             <span>{stat.diff}%</span>
             <DiffIcon size="1rem" stroke={0.5} />
-          </Text>
+          </Text> */}
         </Group>
 
         <Text fz="xs" c="dimmed" mt={7}>

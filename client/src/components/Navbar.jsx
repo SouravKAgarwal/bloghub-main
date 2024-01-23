@@ -4,15 +4,7 @@ import { Link } from "react-router-dom";
 import UserProfile from "../assets/profile.png";
 import { Logo, ThemeSwitch, Button } from "../components";
 import useStore from "../store";
-
-function getInitials(fullName) {
-  const names = fullName.split(" ");
-  const initials = names.slice(0, 2).map((name) => name[0].toUpperCase());
-
-  const initialStr = initials.join("");
-
-  return initialStr;
-}
+import { getInitials } from "../utils";
 
 const MobileMenu = ({ user, signOut }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

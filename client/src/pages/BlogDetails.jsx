@@ -64,7 +64,7 @@ const BlogDetails = () => {
           {post?.desc && (
             <Markdown
               options={{ wrapper: "article" }}
-              className="leading-[3rem] text-base 2xl:text-[20px]"
+              className="leading-[2.25rem] text-base 2xl:text-[20px]"
             >
               {post?.desc}
             </Markdown>

@@ -56,7 +56,7 @@ const UserMenu = ({ user }) => {
           />
 
           <div className="flex flex-col items-start ml-3 dark:text-gray-200 text-black">
-            <p className="font-medium">{user?.name}</p>
+            <p className="font-medium">{user?.name.split(" ")[0]}</p>
             <span className="text-sm font-normal">{user?.accountType}</span>
           </div>
         </Button>
@@ -70,11 +70,9 @@ const UserMenu = ({ user }) => {
           Profile
         </Menu.Item>
         <Menu.Item
+          onClick={handleSignOut}
           leftSection={
-            <AiOutlineLogout
-              style={{ width: rem(14), height: rem(14) }}
-              onClick={() => handleSignOut()}
-            />
+            <AiOutlineLogout style={{ width: rem(14), height: rem(14) }} />
           }
         >
           Logout

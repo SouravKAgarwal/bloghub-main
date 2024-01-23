@@ -67,6 +67,9 @@ const Followers = () => {
                       {getInitials(followerId?.name)}
                     </p>
                   )}
+                  <div>
+                    <p className="text-base">{followerId?.name}</p>
+                  </div>
                 </Table.Td>
                 <Table.Td>
                   <p

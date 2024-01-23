@@ -7,7 +7,16 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 
-export const API_URI = "http://localhost:8800";
+export const API_URI = "https://bloghubmern.onrender.com";
+
+export function getInitials(fullName) {
+  const names = fullName.split(" ");
+  const initials = names.slice(0, 2).map((name) => name[0].toUpperCase());
+
+  const initialStr = initials.join("");
+
+  return initialStr;
+}
 
 export function formatNumber(num) {
   if (num >= 1000000) {
