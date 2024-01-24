@@ -169,6 +169,8 @@ const WritePost = () => {
             <RichTextEditor.H2 />
             <RichTextEditor.H3 />
             <RichTextEditor.H4 />
+            <RichTextEditor.H5 />
+            <RichTextEditor.H6 />
           </RichTextEditor.ControlsGroup>
 
           <RichTextEditor.ControlsGroup>

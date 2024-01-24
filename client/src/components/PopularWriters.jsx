@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Profile from "../assets/profile.png";
 import { formatNumber } from "../utils";
 
 const PopularWriters = ({ data }) => {
@@ -16,7 +15,7 @@ const PopularWriters = ({ data }) => {
           key={el?._id}
         >
           <img
-            src={el?.img || Profile}
+            src={el?.image}
             alt={el?.name}
             className="h-12 w-12 object-cover rounded-full"
           />

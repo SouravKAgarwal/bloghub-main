@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import useStore from "../store";
 import { FaUserCheck } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import NoProfile from "../assets/profile.png";
 import {
   Button,
   Card,
@@ -55,7 +54,7 @@ const WriterPage = () => {
     <div className="px-0 2xl:px-20">
       <div className="w-full md:h-60 flex flex-col gap-5 items-center md:flex-row bg-black dark:bg-gradient-to-r from-[#020b19] via-[#071b3e] to-[#020b19] mt-5 mb-10 rounded-md p-5 md:px-20">
         <img
-          src={writer?.image || NoProfile}
+          src={writer?.image}
           className="w-48 h-48 rounded-full object-cover border-4 border-slate-400"
           alt={writer?.name}
         />

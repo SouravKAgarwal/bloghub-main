@@ -18,7 +18,7 @@ const Content = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { user, theme } = useStore();
+  const { user } = useStore();
   const { setOpen, commentId, setCommentId } = useCommentStore();
   const [visible, { toggle }] = useDisclosure(false);
   const { data, isPending, mutate } = useContent(toast, toggle, user?.token);
