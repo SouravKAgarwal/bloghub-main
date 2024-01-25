@@ -69,9 +69,9 @@ export const followWriter = async (req, res, next) => {
     const followerId = req.body.user.userId;
     const { id } = req.params;
 
-    const checks = await Followers.findOne({ followerId });
+    const check = await Users.findOne({ followers: followerId });
 
-    if (checks)
+    if (check)
       return res.status(201).json({
         success: false,
         message: "You're already following this writer.",
@@ -92,6 +92,36 @@ export const followWriter = async (req, res, next) => {
       success: true,
       message: "You're now following writer " + writer?.name,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const unFollowWriter = async (req, res, next) => {
+  try {
+    const followerId = req.body.user.userId;
+    const { id } = req.params;
+
+    const check = await Followers.findOne({ followerId });
+
+    if (check) {
+      const writer = await Users.findById(id);
+
+      const unFollower = await Followers.deleteOne({
+        followerId,
+        writerId: id,
+      });
+
+      writer?.followers?.pop(unFollower?._id);
+
+      await Users.findByIdAndUpdate(id, writer);
+
+      res.status(201).json({
+        success: true,
+        message: "You have unfollowed writer " + writer?.name,
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });

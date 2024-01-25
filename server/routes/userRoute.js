@@ -5,6 +5,7 @@ import {
   followWriter,
   getWriter,
   resendOTP,
+  unFollowWriter,
   updateUser,
 } from "../controllers/userController.js";
 
@@ -15,6 +16,8 @@ router.post("/resend-link/:id", resendOTP);
 
 // user routes
 router.post("/follow/:id", userAuth, followWriter);
+router.post("/unfollow/:id", userAuth, unFollowWriter);
+
 router.put("/update-user", userAuth, updateUser);
 
 router.get("/user/:id?", getWriter);
