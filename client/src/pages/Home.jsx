@@ -1,4 +1,4 @@
-import { CATEGORIES } from "../utils/dummyData";
+import { CATEGORIES } from "../utils/data";
 import {
   Banner,
   Card,
@@ -39,10 +39,10 @@ const Home = () => {
               <Link
                 key={index}
                 to={`/category?cat=${cat?.label}`}
-                className={`flex items-center justify-center gap-3 ${cat.color} text-white font-semibold text-base px-4 py-2 rounded cursor-pointer`}
+                className={`flex items-center justify-center gap-3 ${cat?.color} text-white font-semibold text-base px-4 py-2 rounded cursor-pointer`}
               >
-                {cat.icon}
-                <span>{cat.label}</span>
+                {cat?.icon}
+                <span>{cat?.label}</span>
               </Link>
             ))}
           </div>

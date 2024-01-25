@@ -7,7 +7,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 
-// export const API_URI = "https://bloghubmern.onrender.com";
+// export const API_URI = "https://bloghub-main.vercel.app";
 export const API_URI = "http://localhost:8800";
 
 export function getInitials(fullName) {
@@ -79,11 +79,15 @@ export const uploadFile = (setFileUrl, file) => {
   );
 };
 
-export const updateUrl = ({ page, navigate, location }) => {
+export const updateUrl = ({ page, navigate, location, cat }) => {
   const params = new URLSearchParams();
 
   if (page && page > 1) {
     params.set("page", page);
+  }
+
+  if (cat) {
+    params.set("cat", cat);
   }
 
   const newURL = `${location.pathname}?${params.toString()}`;

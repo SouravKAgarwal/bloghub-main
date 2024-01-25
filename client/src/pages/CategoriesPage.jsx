@@ -2,10 +2,8 @@ import { Card, Pagination, PopularPost, PopularWriters } from "../components";
 import { usePopularPosts, usePosts } from "../hooks/postHooks";
 
 const CategoriesPage = () => {
-  const { posts, numOfPages, setPage } = usePosts({ writerId: "" });
+  const { posts, numOfPages, setPage, category } = usePosts({ writerId: "" });
   const popular = usePopularPosts();
-
-  const query = new URLSearchParams(window.location.search).get("cat");
 
   const handlePageChange = (val) => {
     setPage(val);
@@ -15,7 +13,7 @@ const CategoriesPage = () => {
     <div className="px-0 2xl:px-20">
       <div className="py-5">
         <h2 className="text-4xl 2xl:text-5xl font-semibold text-slate-800 dark:text-white">
-          {query}
+          {category}
         </h2>
       </div>
       <div className="w-full flex flex-col md:flex-row gap-10 2xl:gap-20">
@@ -29,7 +27,7 @@ const CategoriesPage = () => {
           ) : (
             <>
               {posts?.map((post) => (
-                <Card key={post?.id} post={post} />
+                <Card key={post?._id} post={post} />
               ))}
 
               <div className="flex w-full items-center justify-center">

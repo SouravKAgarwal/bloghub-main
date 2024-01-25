@@ -4,7 +4,6 @@ const Pagination = ({ totalPages, onPageChange }) => {
   const { theme } = useStore();
   const searchParams = new URLSearchParams(window.location.search);
   const currentPage = parseInt(searchParams.get("page")) || 1;
-  console.log(currentPage);
 
   const range = (start, end) =>
     Array.from({ length: end - start + 1 }, (_, i) => start + i);
@@ -34,7 +33,7 @@ const Pagination = ({ totalPages, onPageChange }) => {
 
       {range(
         Math.max(1, currentPage - 2),
-        Math.min(totalPages, currentPage)
+        Math.min(totalPages, currentPage + 4)
       ).map((page, index) => (
         <button
           key={index}

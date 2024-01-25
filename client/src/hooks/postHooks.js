@@ -41,7 +41,7 @@ export const usePosts = ({ writerId }) => {
     fetchPosts();
   }, [category, page, writerId]);
 
-  return { page, posts, numOfPages, setPage };
+  return { page, posts, numOfPages, setPage, category };
 };
 
 export const usePopularPosts = () => {
@@ -65,4 +65,3 @@ export const usePopularPosts = () => {
   }, []);
   return popular;
 };
-

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CATEGORIES } from "../utils/dummyData";
+import { CATEGORIES } from "../utils/data";
 
 const PopularPost = ({ posts }) => {
   const Card = ({ post }) => {

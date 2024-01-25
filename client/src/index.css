@@ -39,8 +39,8 @@ body {
 }
 
 .pagination-btn {
-  padding: 0.35rem 0.7rem;
-  margin: 0.25rem 0;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem 0.25rem;
   cursor: pointer;
   border: 1px solid #ddd;
   background-color: #fff;
@@ -70,8 +70,8 @@ body {
 }
 
 .pagination-ellipsis {
-  padding: 0.35rem 0.7rem;
-  margin: 0.25rem 0;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem 0.25rem;
   cursor: not-allowed;
   color: #ccc;
 }

@@ -6,6 +6,7 @@ import {
   LoginPage,
   WriterPage,
   SignUpPage,
+  // UserPage,
 } from "./pages";
 import { Footer, Loading, Navbar } from "./components";
 import useStore from "./store";
@@ -34,6 +35,7 @@ function App() {
             <Route path="/category" element={<CategoriesPage />} />
             <Route path="/:slug/:id" element={<BlogDetails />} />
             <Route path="/writer/:id" element={<WriterPage />} />
+            {/* <Route path="/user/:id" element={<UserPage />} /> */}
           </Route>
           <Route path="/register" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />

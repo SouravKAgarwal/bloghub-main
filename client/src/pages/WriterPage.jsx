@@ -32,6 +32,7 @@ const WriterPage = () => {
 
   const handleFollow = async () => {
     const res = await followWriter(id, user?.token);
+    console.log(res);
     if (res?.success) {
       fetchWriter();
     }
@@ -52,12 +53,14 @@ const WriterPage = () => {
   }
   return (
     <div className="px-0 2xl:px-20">
-      <div className="w-full md:h-60 flex flex-col gap-5 items-center md:flex-row bg-black dark:bg-gradient-to-r from-[#020b19] via-[#071b3e] to-[#020b19] mt-5 mb-10 rounded-md p-5 md:px-20">
-        <img
-          src={writer?.image}
-          className="w-48 h-48 rounded-full object-cover border-4 border-slate-400"
-          alt={writer?.name}
-        />
+      <div className="w-full md:h-60 flex flex-col items-center md:flex-row bg-black dark:bg-gradient-to-r from-[#020b19] via-[#071b3e] to-[#020b19] mt-5 mb-10 rounded-md">
+        <div className="w-1/3 flex items-center justify-center">
+          <img
+            src={writer?.image}
+            className="w-48 h-48 flex rounded-full object-center object-cover border-4 border-slate-400"
+            alt={writer?.name}
+          />
+        </div>
         <div className="w-full h-full flex flex-col gap-y-5 md:gap-y-8 items-center justify-center">
           <h2 className="text-white dark:text-4xl 2xl:text-3xl font-bold">
             {writer?.name}
