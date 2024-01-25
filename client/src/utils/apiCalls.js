@@ -175,3 +175,20 @@ export const followWriter = async (id, token) => {
     return err;
   }
 };
+
+export const unFollowWriter = async (id, token) => {
+  try {
+    const result = await axios.post(`${API_URI}/users/unfollow/${id}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return result?.data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    console.log(error);
+
+    return err;
+  }
+};

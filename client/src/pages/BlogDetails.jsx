@@ -24,6 +24,7 @@ const BlogDetails = () => {
       fetchPost();
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
+    // eslint-disable-next-line
   }, [id]);
 
   if (!post) {
