@@ -161,7 +161,7 @@ export const useDeleteComment = (token) => {
   return useMutation({
     mutationFn: async ({ id, postId }) => {
       const { data } = await axios.delete(
-        `${API_URI}/posts/comments/${id}/${postId}`,
+        `${API_URI}/posts/comment/${id}/${postId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -173,4 +173,3 @@ export const useDeleteComment = (token) => {
     },
   });
 };
-

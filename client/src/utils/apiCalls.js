@@ -146,6 +146,23 @@ export const deleteComment = async (id, token, postId) => {
   }
 };
 
+export const updateUser = async (token, data) => {
+  try {
+    const result = await axios.put(`${API_URI}/users/update-user`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return result?.data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    console.log(error);
+
+    return err;
+  }
+};
+
 export const getWriterInfo = async (id) => {
   try {
     const { data } = await axios.get(`${API_URI}/users/user/${id}`);

@@ -28,7 +28,7 @@ const Dashboard = () => {
 
       <div className="flex gap-6 flex-col md:flex-row py-6">
         {/* recent followers */}
-        <div className="w-full md:w-1/3 flex flex-col">
+        <div className="w-full flex flex-col">
           <span className="py-5 text-base font-medium dark:text-white text-slate-600">
             Recent Followers
           </span>
@@ -36,9 +36,9 @@ const Dashboard = () => {
         </div>
 
         {/* recent 5 content */}
-        <div className="w-full md:w-2/3 flex flex-col">
+        <div className="w-full flex flex-col">
           <span className="py-5 text-base font-medium dark:text-white text-slate-600">
-            Recent 5 Contents
+            Recent Contents
           </span>
           <RecentPostTable data={data?.last5Posts} />
         </div>

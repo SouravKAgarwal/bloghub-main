@@ -22,7 +22,6 @@ const Comments = () => {
   useEffect(() => {
     mutate(commentId);
   }, [commentId]);
-  console.log(data);
 
   return (
     <Modal

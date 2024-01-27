@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserProfile from "../assets/profile.png";
 import { Logo, ThemeSwitch, Button } from "../components";
 import useStore from "../store";
@@ -8,8 +8,14 @@ import { getInitials } from "../utils";
 
 const MobileMenu = ({ user, signOut }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleProfile = () => {
+    navigate(`/user/${user?.user?._id}`);
     setIsMenuOpen(!isMenuOpen);
   };
 
@@ -53,7 +59,10 @@ const MobileMenu = ({ user, signOut }) => {
           <div className="flex gap-2 items-center">
             {user?.token ? (
               <div className="w-full flex items-center justify-center flex-col">
-                <div className="flex gap-1 items-center mb-5">
+                <div
+                  className="flex gap-1 items-center mb-5"
+                  onClick={handleProfile}
+                >
                   {user?.user.image ? (
                     <img
                       src={user?.user.image ?? UserProfile}
@@ -102,6 +111,8 @@ const MobileMenu = ({ user, signOut }) => {
 const Navbar = () => {
   const { user, signOut } = useStore();
   const [showProfile, setShowProfile] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     localStorage.removeItem("userInfo");
@@ -153,7 +164,12 @@ const Navbar = () => {
 
               {showProfile && (
                 <div className="absolute bg-white dark:bg-[#2f2d30] py-6 px-6 flex flex-col shadow-2xl z-50 right-0 gap-3 rounded">
-                  <span className="dark:text-white">Profile</span>
+                  <span
+                    className="dark:text-white"
+                    onClick={() => navigate(`/user/${user?.user?._id}`)}
+                  >
+                    Profile
+                  </span>
                   <span
                     className="border-t border-slate-300 text-rose-700"
                     onClick={handleSignOut}

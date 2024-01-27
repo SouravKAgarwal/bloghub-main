@@ -18,23 +18,21 @@ export const RecentFollowersTable = ({ data }) => {
           </p>
         )}
 
-        <>
-          <p className="text-base">{follower?.name}</p>
-          <div className="flex gap-3 items-center">
-            <span className="text-sm text-rose-600">
-              {follower?.accountType}
-            </span>
-
-            {follower?.followers.length > 0 && (
-              <span className="text-sm text-slate-600 font-bold">
-                {formatNumber(follower?.followers.length)}
-              </span>
-            )}
-          </div>
-        </>
+        <p className="text-xs">{follower?.name}</p>
+      </Table.Td>
+      <Table.Td>
+        <span className="text-xs text-rose-600">{follower?.accountType}</span>
       </Table.Td>
 
-      <Table.Td>{moment(createdAt).fromNow()}</Table.Td>
+      <Table.Td>
+        <span className="text-sm text-slate-600 font-bold">
+          {formatNumber(follower?.followers.length)}
+        </span>
+      </Table.Td>
+
+      <Table.Td>
+        <p className="text-xs">{moment(createdAt).fromNow()}</p>
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -43,6 +41,8 @@ export const RecentFollowersTable = ({ data }) => {
       <Table.Thead>
         <Table.Tr>
           <Table.Th>Follower</Table.Th>
+          <Table.Th>User Type</Table.Th>
+          <Table.Th>Followers</Table.Th>
           <Table.Th>Join Date</Table.Th>
         </Table.Tr>
       </Table.Thead>
@@ -64,14 +64,17 @@ export const RecentPostTable = ({ data }) => {
           className="w-10 h-10 rounded-full object-cover"
         />
 
-        <>
-          <p className="text-base">{el?.title}</p>
-          <span className="text-[10px] text-rose-600">{el?.cat}</span>
-        </>
+        <p className="text-xs">{el?.title}</p>
+      </Table.Td>
+
+      <Table.Td>
+        <span className="text-[10px] text-rose-600">{el?.cat}</span>
       </Table.Td>
 
       <Table.Td>{formatNumber(el?.views.length)}</Table.Td>
-      <Table.Td>{moment(el?.createdAt).fromNow()}</Table.Td>
+      <Table.Td>
+        <p className="text-xs">{moment(el?.createdAt).fromNow()}</p>
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -80,6 +83,7 @@ export const RecentPostTable = ({ data }) => {
       <Table.Thead>
         <Table.Tr>
           <Table.Th>Post Title</Table.Th>
+          <Table.Th>Category</Table.Th>
           <Table.Th>Views</Table.Th>
           <Table.Th>Post Date</Table.Th>
         </Table.Tr>
