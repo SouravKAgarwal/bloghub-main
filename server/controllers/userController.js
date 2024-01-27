@@ -131,7 +131,7 @@ export const unFollowWriter = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    const { firstName, lastName, image } = req.body;
+    const { firstName, lastName, email, password, image } = req.body;
 
     if (!(firstName || lastName)) {
       return next("Please provide all required fields");
@@ -139,6 +139,8 @@ export const updateUser = async (req, res, next) => {
 
     const updateUser = {
       name: firstName + " " + lastName,
+      email,
+      password,
       image,
       _id: userId,
     };
