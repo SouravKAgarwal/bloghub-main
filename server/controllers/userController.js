@@ -139,7 +139,6 @@ export const updateUser = async (req, res, next) => {
 
     const updateUser = {
       name: firstName + " " + lastName,
-      email,
       password,
       image,
       _id: userId,
