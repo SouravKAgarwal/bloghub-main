@@ -15,7 +15,7 @@ function Layout() {
   const { user } = useStore();
   const location = useLocation();
 
-  return user?.token ? (
+  return (
     <div className="w-full flex flex-col min-h-screen px-4 md:px-10 2xl:px-28">
       <Navbar />
       <div className="flex-1">
@@ -23,8 +23,6 @@ function Layout() {
       </div>
       <Footer />
     </div>
-  ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
   );
 }
 
