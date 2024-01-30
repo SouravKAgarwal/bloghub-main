@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BiImages, BiUpload } from "react-icons/bi";
+import { BiUpload } from "react-icons/bi";
 import { Toaster, toast } from "sonner";
 import { Button, InputBox } from "../components";
 import { getWriterInfo, updateUser } from "../utils/apiCalls";
@@ -60,6 +60,7 @@ const UpdateForm = () => {
   useEffect(() => {
     file && uploadFile(setFileUrl, file);
     fetchWriter();
+    // eslint-disable-next-line
   }, [file, id]);
 
   return (
@@ -123,11 +124,13 @@ const UpdateForm = () => {
                     <img
                       src={fileUrl}
                       className="w-10 h-10 rounded-full object-cover"
+                      alt={profile?.name}
                     />
                   ) : (
                     <img
                       src={profile?.image === "" ? NoProfile : profile?.image}
                       className="w-10 h-10 rounded-full object-cover"
+                      alt={profile?.name}
                     />
                   )}
 

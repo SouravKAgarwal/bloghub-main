@@ -12,7 +12,7 @@ import {
 import useStore from "./store";
 
 function Layout() {
-  const { user } = useStore((state) => state);
+  const { user } = useStore();
 
   const location = useLocation();
 

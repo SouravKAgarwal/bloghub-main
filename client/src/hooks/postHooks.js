@@ -13,6 +13,7 @@ export const usePosts = ({ writerId }) => {
   const [searchParams] = useSearchParams();
 
   const [page, setPage] = useState(searchParams.get("page") || 1);
+  // eslint-disable-next-line
   const [category, setCategory] = useState(searchParams.get("cat") || "");
 
   const [posts, setPosts] = useState([]);
@@ -39,6 +40,7 @@ export const usePosts = ({ writerId }) => {
 
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     fetchPosts();
+    // eslint-disable-next-line
   }, [category, page, writerId]);
 
   return { page, posts, numOfPages, setPage, category };

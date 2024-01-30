@@ -52,6 +52,7 @@ const PostComments = ({ postId }) => {
 
   useEffect(() => {
     fetchComments();
+    // eslint-disable-next-line
   }, [postId]);
 
   return (

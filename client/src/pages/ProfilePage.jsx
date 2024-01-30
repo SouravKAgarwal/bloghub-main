@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
 import UpdateForm from "../components/UpdateForm";
 import { usePosts } from "../hooks/postHooks";
-import useStore from "../store";
-import { formatNumber, getInitials } from "../utils";
+import { formatNumber } from "../utils";
 import { getWriterInfo } from "../utils/apiCalls";
 import { useEffect, useState } from "react";
 import NoProfile from "../assets/profile.png";
