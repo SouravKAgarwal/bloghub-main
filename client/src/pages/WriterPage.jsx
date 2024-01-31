@@ -65,7 +65,7 @@ const WriterPage = () => {
         <div className="w-full md:w-1/3 flex justify-center">
           <img
             src={writer?.image}
-            className="w-48 h-48 rounded-full object-cover border-4 border-slate-400"
+            className="w-48 h-48 rounded-full object-cover border border-slate-400"
             alt={writer?.name}
           />
         </div>
