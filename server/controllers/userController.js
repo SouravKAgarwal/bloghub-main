@@ -1,7 +1,7 @@
 import Verification from "../models/emailVerification.js";
 import Followers from "../models/followersModel.js";
 import Users from "../models/userModel.js";
-import { compareString, createJWT } from "../utils/index.js";
+import { compareString, generateToken } from "../utils/index.js";
 import { sendVerificationEmail } from "../utils/sendEmail.js";
 
 export const OTPVerification = async (req, res, next) => {
@@ -53,7 +53,7 @@ export const resendOTP = async (req, res, next) => {
 
     user.password = undefined;
 
-    const token = createJWT(user?._id);
+    const token = generateToken(res, user?._id);
 
     if (user?.accountType === "Writer") {
       sendVerificationEmail(user, res, token);
@@ -147,7 +147,7 @@ export const updateUser = async (req, res, next) => {
       new: true,
     });
 
-    const token = createJWT(user?._id);
+    const token = generateToken(res, user?._id);
 
     user.password = undefined;
 

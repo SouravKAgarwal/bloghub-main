@@ -239,9 +239,13 @@ export const commentPost = async (req, res, next) => {
 export const updatePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    const { title, slug, desc, img, status } = req.body;
 
-    const post = await Posts.findByIdAndUpdate(id, { status }, { new: true });
+    const post = await Posts.findByIdAndUpdate(
+      id,
+      { title, slug, desc, img, status },
+      { new: true }
+    );
 
     res.status(200).json({
       sucess: true,

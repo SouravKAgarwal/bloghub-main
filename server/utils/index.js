@@ -17,12 +17,6 @@ export const compareString = async (userPassword, password) => {
   }
 };
 
-export function createJWT(id) {
-  return JWT.sign({ userId: id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
-}
-
 export function generateOTP() {
   const min = 100000; // Minimum 6-digit number
   const max = 999999; // Maximum 6-digit number
@@ -32,4 +26,18 @@ export function generateOTP() {
   randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
   return randomNumber;
+}
+
+export function generateToken(res, userId) {
+  const token = JWT.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
+
+  res.cookie("jwt", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "strict",
+    maxAge: 60 * 60 * 1000,
+  });
+  return token;
 }

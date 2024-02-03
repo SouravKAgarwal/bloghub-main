@@ -1,5 +1,5 @@
 import Users from "../models/userModel.js";
-import { compareString, createJWT, hashString } from "../utils/index.js";
+import { generateToken, compareString, hashString } from "../utils/index.js";
 import { sendVerificationEmail } from "../utils/sendEmail.js";
 
 export const register = async (req, res, next) => {
@@ -41,9 +41,8 @@ export const register = async (req, res, next) => {
 
     user.password = undefined;
 
-    const token = createJWT(user?._id);
+    const token = generateToken(res, user?._id);
 
-    //send email verification if account type is writer
     if (accountType === "Writer") {
       sendVerificationEmail(user, res, token);
     } else {
@@ -81,7 +80,7 @@ export const googleSignUp = async (req, res, next) => {
 
     user.password = undefined;
 
-    const token = createJWT(user?._id);
+    const token = generateToken(res, user?._id);
 
     res.status(201).json({
       success: true,
@@ -113,7 +112,7 @@ export const login = async (req, res, next) => {
 
     // Google account signed in
     if (!password && user?.provider === "Google") {
-      const token = createJWT(user?._id);
+      const token = generateToken(res, user?._id);
 
       return res.status(201).json({
         success: true,
@@ -136,7 +135,7 @@ export const login = async (req, res, next) => {
 
     user.password = undefined;
 
-    const token = createJWT(user?._id);
+    const token = generateToken(res, user?._id);
 
     res.status(201).json({
       success: true,
