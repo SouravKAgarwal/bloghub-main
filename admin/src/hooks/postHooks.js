@@ -68,6 +68,15 @@ export const useCreatePost = (toast, toggle, token) => {
   });
 };
 
+export const useSinglePost = () => {
+  return useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axios.get(`${API_URI}/posts/${id}`);
+      return data;
+    },
+  });
+};
+
 export const useContent = (toast, toggle, token) => {
   return useMutation({
     mutationFn: async (page) => {
@@ -92,6 +101,35 @@ export const useContent = (toast, toggle, token) => {
       if (errMsg === "Authentication failed") {
         localStorage.removeItem("user");
       }
+    },
+
+    onSuccess: (data) => {
+      toggle();
+      toast.success(data?.message);
+    },
+  });
+};
+
+export const useUpdatePost = (toast, toggle, token) => {
+  return useMutation({
+    mutationFn: async (id, data) => {
+      toggle();
+      const { result } = await axios.patch(
+        `${API_URI}/posts/update/${id}`,
+        { data },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return result;
+    },
+
+    onError: (error) => {
+      toggle();
+      toast.error(error?.response?.data?.message ?? error?.message);
     },
 
     onSuccess: (data) => {

@@ -18,7 +18,7 @@ router.post("/resend-link/:id", resendOTP);
 router.post("/follow/:id", userAuth, followWriter);
 router.post("/unfollow/:id", userAuth, unFollowWriter);
 
-router.put("/update-user", userAuth, updateUser);
+router.patch("/update-user", userAuth, updateUser);
 
 router.get("/user/:id?", getWriter);
 
