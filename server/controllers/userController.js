@@ -194,13 +194,19 @@ export const getWriter = async (req, res, next) => {
 
 export const deleteUser = async (req, res, next) => {
   try {
-    const { userId } = req.body.user;
+    const { id } = req.params;
 
-    const user = await Users.findByIdAndDelete(userId);
-    res.status(400).json({
-      success: true,
-      message: "User deleted successfully",
-    });
+    const user = await Users.findById(id);
+
+    if (user) {
+      await Users.findByIdAndDelete(id);
+      res.status(201).json({
+        success: true,
+        message: "User deleted successfully",
+      });
+    } else {
+      res.status(401).json({ message: "User not found" });
+    }
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });

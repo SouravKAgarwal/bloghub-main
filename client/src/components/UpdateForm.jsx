@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import { BiUpload } from "react-icons/bi";
 import { Toaster, toast } from "sonner";
 import { Button, InputBox } from "../components";
-import { getWriterInfo, updateUser } from "../utils/apiCalls";
+import { deleteUser, getWriterInfo, updateUser } from "../utils/apiCalls";
 import useStore from "../store";
 import NoProfile from "../assets/profile.png";
 import { saveUserInfo, uploadFile } from "../utils";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateForm = () => {
-  const { user, signIn, setIsLoading } = useStore();
+  const { user, signIn, setIsLoading, signOut } = useStore();
   const { id } = useParams();
 
   const [profile, setProfile] = useState("");
@@ -20,6 +20,8 @@ const UpdateForm = () => {
   });
   const [file, setFile] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+
+  const navigate = useNavigate();
 
   const fetchWriter = async () => {
     const res = await getWriterInfo(id);
@@ -61,6 +63,21 @@ const UpdateForm = () => {
       saveUserInfo(res, signIn);
       fetchWriter();
       toast.success(res?.message);
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const res = await deleteUser(id, user?.token);
+
+    setIsLoading(false);
+
+    if (res?.success) {
+      toast.success(res?.message);
+      localStorage.removeItem("userInfo");
+      signOut();
     }
   };
 
@@ -150,14 +167,22 @@ const UpdateForm = () => {
               </div>
             </div>
 
-            <Button
-              label="Update Account"
-              type="submit"
-              styles="group relative w-full flex justify-center py-2.5 2xl:py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-black dark:bg-rose-800 hover:bg-rose-700 focus:outline-none"
-              onClick={() => {
-                !file && toast.error("Upload Image!");
-              }}
-            />
+            <div className="flex gap-4">
+              <Button
+                label="Update Account"
+                type="submit"
+                styles="group relative w-full flex justify-center py-2.5 2xl:py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-black dark:bg-rose-800 hover:bg-rose-700 focus:outline-none"
+                onClick={() => {
+                  !file && toast.error("Upload Image!");
+                }}
+              />
+              <Button
+                label="Delete Account"
+                type="submit"
+                styles="group relative w-full flex justify-center py-2.5 2xl:py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-rose-800 focus:outline-none"
+                onClick={handleDelete}
+              />
+            </div>
           </form>
         </div>
       </div>
