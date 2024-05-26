@@ -29,6 +29,10 @@ export const uploadFile = (setFileUrl, file) => {
         case "running":
           console.log("Upload is running");
           break;
+
+        default:
+          console.log("Upload is running");
+          break;
       }
     },
     (error) => {

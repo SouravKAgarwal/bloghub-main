@@ -131,14 +131,15 @@ export const unFollowWriter = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    const { firstName, lastName, email, password, image } = req.body;
+    const { firstName, lastName, email, image } = req.body;
 
-    if (!(firstName || lastName)) {
+    if (!(firstName || lastName || email || image)) {
       return next("Please provide all required fields");
     }
 
     const updateUser = {
       name: firstName + " " + lastName,
+      email,
       image,
       _id: userId,
     };
@@ -188,5 +189,20 @@ export const getWriter = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Something went wrong" });
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const { userId } = req.body.user;
+
+    const user = await Users.findByIdAndDelete(userId);
+    res.status(400).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
   }
 };

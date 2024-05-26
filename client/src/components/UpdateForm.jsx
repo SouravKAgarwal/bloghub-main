@@ -13,28 +13,35 @@ const UpdateForm = () => {
   const { id } = useParams();
 
   const [profile, setProfile] = useState("");
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+  const [file, setFile] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
 
   const fetchWriter = async () => {
     const res = await getWriterInfo(id);
     setProfile(res);
-  };
 
-  const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-  });
+    // Split the full name into first and last names
+    const [firstName, lastName] = res?.name ? res.name.split(" ") : ["", ""];
+    const email = res?.email;
+    setData({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setData({
       ...data,
       [name]: value,
     });
   };
-
-  const [file, setFile] = useState("");
-  const [fileUrl, setFileUrl] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +54,7 @@ const UpdateForm = () => {
 
     setIsLoading(false);
 
-    setData({ firstName: "", lastName: "" });
+    setData({ firstName: "", lastName: "", email: "" });
     setFile("");
 
     if (res?.success) {
@@ -90,18 +97,14 @@ const UpdateForm = () => {
                 />
               </div>
               <div className="w-full flex flex-col gap-1">
-                <label
-                  htmlFor="email"
-                  className="text-slate-900 dark:text-white"
-                >
-                  Email Address
-                </label>
-                <input
+                <InputBox
                   type="email"
-                  className="dark:bg-transparent appearance-none block w-full px-3 py-2.5 2xl:py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-300 dark:placeholder-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-base"
+                  label="Email Address"
+                  placeholder="Email"
                   name="email"
-                  value={profile?.email || ""}
-                  readOnly
+                  value={data?.email}
+                  onChange={handleChange}
+                  isRequired={true}
                 />
               </div>
 
