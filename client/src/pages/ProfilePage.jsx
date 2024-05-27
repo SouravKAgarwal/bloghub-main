@@ -1,10 +1,12 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import UpdateForm from "../components/UpdateForm";
 import { usePosts } from "../hooks/postHooks";
 import { formatNumber } from "../utils";
-import { getWriterInfo } from "../utils/apiCalls";
+import { getWriterInfo, resendOTP } from "../utils/apiCalls";
 import { useEffect, useState } from "react";
 import NoProfile from "../assets/profile.png";
+import { toast } from "sonner";
+import { BiArrowToRight } from "react-icons/bi";
 
 const ProfilePage = () => {
   const { id } = useParams();
@@ -15,6 +17,20 @@ const ProfilePage = () => {
   const fetchWriter = async () => {
     const res = await getWriterInfo(id);
     setProfile(res);
+  };
+
+  const handleResendOTP = async () => {
+    try {
+      const response = await resendOTP(id);
+
+      if (response.success) {
+        toast.success("OTP sent successfully");
+      } else {
+        toast.error("Failed to resend OTP");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
   };
 
   useEffect(() => {
@@ -56,7 +72,14 @@ const ProfilePage = () => {
           ) : (
             <div className="flex">
               <div className="flex items-center bg-red-500 rounded-full px-4 py-1.5">
-                <p className="text-white font-semibold">Verification Pending</p>
+                <Link
+                  className="flex gap-2 items-center text-white font-semibold"
+                  onClick={handleResendOTP}
+                  to={`/verify/${id}`}
+                >
+                  Verification Pending
+                  <BiArrowToRight className="text-xl" />
+                </Link>
               </div>
             </div>
           )}
@@ -87,7 +110,7 @@ const ProfilePage = () => {
           )}
         </div>
       </div>
-      <UpdateForm />
+      <UpdateForm profile={profile} fetchWriter={fetchWriter} />
     </div>
   );
 };

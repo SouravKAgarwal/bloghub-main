@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { BiImages, BiUpload } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { Logo, Button, Divider, InputBox } from "../components";
 import { getGoogleSignUp, emailSignUp } from "../utils/apiCalls";
@@ -22,7 +22,9 @@ const SignupPage = () => {
   const [file, setFile] = useState("");
   const [fileUrl, setFileUrl] = useState("");
 
-  if (user?.token) window.location.replace("/");
+  const navigate = useNavigate();
+
+  if (user?.token) window.location.replace(`/verify/${user?.user?._id}`);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,6 +61,7 @@ const SignupPage = () => {
 
     if (result.success) {
       saveUserInfo(result, signIn);
+      // navigate(`/verify/${user?.user?._id}`);
     } else {
       toast.error(result?.message);
     }

@@ -8,6 +8,7 @@ import {
   SignUpPage,
   ProfilePage,
   WritePost,
+  OTPVerify,
 } from "./pages";
 import { Footer, Loading, Navbar } from "./components";
 import useStore from "./store";
@@ -57,6 +58,7 @@ function App() {
 
           <Route element={<Secure />}>
             <Route path="/user/:id" element={<ProfilePage />} />
+            <Route path="/verify/:id" element={<OTPVerify />} />
             <Route path="/write" element={<WritePost />} />
           </Route>
 

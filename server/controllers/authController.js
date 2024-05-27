@@ -14,7 +14,6 @@ export const register = async (req, res, next) => {
       provider,
     } = req.body;
 
-    //validate fileds
     if (!(firstName || lastName || email || password)) {
       return next("Provide Required Fields!");
     }
@@ -43,16 +42,14 @@ export const register = async (req, res, next) => {
 
     const token = generateToken(res, user?._id);
 
-    if (accountType === "Writer") {
-      sendVerificationEmail(user, res, token);
-    } else {
-      res.status(201).json({
-        success: true,
-        message: "Account created successfully",
-        user,
-        token,
-      });
-    }
+    await sendVerificationEmail(user, token);
+
+    return res.status(201).json({
+      success: true,
+      message: "Account created successfully",
+      user,
+      token,
+    });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });

@@ -2,17 +2,16 @@ import { useState, useEffect } from "react";
 import { BiUpload } from "react-icons/bi";
 import { Toaster, toast } from "sonner";
 import { Button, InputBox } from "../components";
-import { deleteUser, getWriterInfo, updateUser } from "../utils/apiCalls";
+import { deleteUser, updateUser } from "../utils/apiCalls";
 import useStore from "../store";
 import NoProfile from "../assets/profile.png";
 import { saveUserInfo, uploadFile } from "../utils";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-const UpdateForm = () => {
+const UpdateForm = ({ profile, fetchWriter }) => {
   const { user, signIn, setIsLoading, signOut } = useStore();
   const { id } = useParams();
 
-  const [profile, setProfile] = useState("");
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -21,21 +20,19 @@ const UpdateForm = () => {
   const [file, setFile] = useState("");
   const [fileUrl, setFileUrl] = useState("");
 
-  const navigate = useNavigate();
-
-  const fetchWriter = async () => {
-    const res = await getWriterInfo(id);
-    setProfile(res);
-
-    // Split the full name into first and last names
-    const [firstName, lastName] = res?.name ? res.name.split(" ") : ["", ""];
-    const email = res?.email;
-    setData({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-    });
-  };
+  useEffect(() => {
+    if (profile) {
+      const [firstName, lastName] = profile.name
+        ? profile.name.split(" ")
+        : ["", ""];
+      setData({
+        firstName: firstName,
+        lastName: lastName,
+        email: profile.email,
+      });
+      setFileUrl(profile.image);
+    }
+  }, [profile]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,14 +53,14 @@ const UpdateForm = () => {
 
     setIsLoading(false);
 
-    setData({ firstName: "", lastName: "", email: "" });
-    setFile("");
-
     if (res?.success) {
       saveUserInfo(res, signIn);
-      fetchWriter();
       toast.success(res?.message);
+      fetchWriter();
     }
+
+    setData({ firstName: "", lastName: "", email: "" });
+    setFile("");
   };
 
   const handleDelete = async (e) => {
@@ -82,16 +79,16 @@ const UpdateForm = () => {
   };
 
   useEffect(() => {
-    file && uploadFile(setFileUrl, file);
-    fetchWriter();
-    // eslint-disable-next-line
-  }, [file, id]);
+    if (file) {
+      uploadFile(setFileUrl, file);
+    }
+  }, [file]);
 
   return (
     <div className="flex justify-center h-full">
       <div className="h-full justify-center flex flex-col items-center py-12 px-4 sm:px-0 lg:px-8">
         <div className="w-full space-y-6 flex flex-col justify-center">
-          <form className="max-w-md w-full space-y-2" onSubmit={handleSubmit}>
+          <form className="max-w-md w-full space-y-2">
             <div className="flex flex-col rounded-md shadow-sm space-y-px gap-6 mb-4">
               <div className="w-full flex gap-4">
                 <InputBox
@@ -169,12 +166,10 @@ const UpdateForm = () => {
 
             <div className="flex gap-4">
               <Button
-                label="Update Account"
+                label="Update"
                 type="submit"
                 styles="group relative w-full flex justify-center py-2.5 2xl:py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-black dark:bg-rose-800 hover:bg-rose-700 focus:outline-none"
-                onClick={() => {
-                  !file && toast.error("Upload Image!");
-                }}
+                onClick={handleSubmit}
               />
               <Button
                 label="Delete Account"

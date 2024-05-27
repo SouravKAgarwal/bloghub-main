@@ -27,10 +27,10 @@ export const OTPVerification = async (req, res, next) => {
           ]);
 
           const message = "Email verified successfully";
-          res.status(200).json({ message });
+          res.status(200).json({ success: true, message });
         } else {
           const message = "Verification failed or link is invalid";
-          res.status(404).json({ message });
+          res.status(404).json({ success: false, message });
         }
       }
     } else {
@@ -55,9 +55,7 @@ export const resendOTP = async (req, res, next) => {
 
     const token = generateToken(res, user?._id);
 
-    if (user?.accountType === "Writer") {
-      sendVerificationEmail(user, res, token);
-    } else res.status(404).json({ message: "Something went wrong" });
+    sendVerificationEmail(user, res, token);
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Something went wrong" });

@@ -227,3 +227,27 @@ export const deleteUser = async (id, token) => {
     return err;
   }
 };
+
+export const verifyUser = async (id, otp, token) => {
+  try {
+    const { data } = await axios.post(`${API_URI}/users/verify/${id}/${otp}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    return err;
+  }
+};
+
+export const resendOTP = async (id) => {
+  try {
+    const { data } = await axios.post(`${API_URI}/users/resend-link/${id}`);
+    return data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    return err;
+  }
+};
