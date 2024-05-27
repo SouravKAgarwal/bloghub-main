@@ -211,7 +211,6 @@ export const unFollowWriter = async (id, token) => {
 };
 
 export const deleteUser = async (id, token) => {
-  console.log(id, token);
   try {
     const result = await axios.delete(`${API_URI}/users/user/${id}`, {
       headers: {

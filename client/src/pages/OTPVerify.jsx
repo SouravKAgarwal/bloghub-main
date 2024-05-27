@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { Button, InputBox, Logo } from "../components";
 import { verifyUser, resendOTP } from "../utils/apiCalls";
 import useStore from "../store";
 
 const OTPVerify = () => {
-  // const { userId } = useParams();
   const [otp, setOtp] = useState("");
   const { user } = useStore();
   const navigate = useNavigate();
