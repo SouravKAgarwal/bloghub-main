@@ -42,9 +42,7 @@ export const register = async (req, res, next) => {
 
     const token = generateToken(res, user?._id);
 
-    if (user?.provider === "Authorised") {
-      await sendVerificationEmail(user, token);
-    }
+    await sendVerificationEmail(user, token);
 
     return res.status(201).json({
       success: true,

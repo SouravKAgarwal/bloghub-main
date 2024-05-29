@@ -21,6 +21,7 @@ const SignupPage = () => {
   });
   const [file, setFile] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [progress, setProgress] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,11 +64,12 @@ const SignupPage = () => {
   };
 
   useEffect(() => {
-    if (user?.token) window.location.replace(`/verify/${user?.user?._id}`);
+    if (user?.token && user?.user.provider === "Authorised")
+      window.location.replace(`/verify/${user?.user?._id}`);
   });
 
   useEffect(() => {
-    file && uploadFile(setFileUrl, file);
+    file && uploadFile(setFileUrl, setProgress, file);
   }, [file]);
 
   return (
@@ -159,17 +161,20 @@ const SignupPage = () => {
                       />
                       <BiImages />
 
-                      <span>
-                        {file ? (
-                          file.name
-                        ) : (
-                          <span className="flex gap-1 items-center">
-                            Upload <BiUpload />
-                          </span>
-                        )}
+                      <span className="flex gap-1 items-center">
+                        Upload <BiUpload />
                       </span>
                     </label>
                   </div>
+
+                  {progress !== null && (
+                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                      <div
+                        className="bg-blue-600 h-2.5 rounded-full"
+                        style={{ width: `${progress}%` }}
+                      ></div>
+                    </div>
+                  )}
                 </div>
                 {file ? (
                   <Button

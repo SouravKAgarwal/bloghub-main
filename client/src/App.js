@@ -58,12 +58,12 @@ function App() {
 
           <Route element={<Secure />}>
             <Route path="/user/:id" element={<ProfilePage />} />
-            <Route path="/verify/:id" element={<OTPVerify />} />
             <Route path="/write" element={<WritePost />} />
           </Route>
 
           <Route path="/register" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/verify/:id" element={<OTPVerify />} />
         </Routes>
 
         {isLoading && <Loading />}

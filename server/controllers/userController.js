@@ -1,7 +1,7 @@
 import Verification from "../models/emailVerification.js";
 import Followers from "../models/followersModel.js";
 import Users from "../models/userModel.js";
-import { compareString, generateToken } from "../utils/index.js";
+import { compareString, generateToken, hashString } from "../utils/index.js";
 import { sendVerificationEmail } from "../utils/sendEmail.js";
 
 export const OTPVerification = async (req, res, next) => {
@@ -55,7 +55,7 @@ export const resendOTP = async (req, res, next) => {
 
     const token = generateToken(res, user?._id);
 
-    sendVerificationEmail(user, res, token);
+    await sendVerificationEmail(user, res, token);
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Something went wrong" });
@@ -129,16 +129,19 @@ export const unFollowWriter = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    const { firstName, lastName, email, image } = req.body;
+    const { firstName, lastName, email, password, image } = req.body;
 
     if (!(firstName || lastName || email || image)) {
       return next("Please provide all required fields");
     }
 
+    const hashedPassword = await hashString(password);
+
     const updateUser = {
       name: firstName + " " + lastName,
       email,
       image,
+      password: hashedPassword,
       _id: userId,
     };
 
@@ -151,7 +154,7 @@ export const updateUser = async (req, res, next) => {
     user.password = undefined;
 
     res.status(200).json({
-      sucess: true,
+      success: true,
       message: "User updated successfully",
       user,
       token,
@@ -177,8 +180,6 @@ export const getWriter = async (req, res, next) => {
         message: "Writer Not Found",
       });
     }
-
-    user.password = undefined;
 
     res.status(200).json({
       success: true,

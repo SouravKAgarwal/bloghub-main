@@ -17,8 +17,10 @@ const UpdateForm = ({ profile, fetchWriter }) => {
     lastName: "",
     email: "",
   });
+  const [pass, setPass] = useState("");
   const [file, setFile] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [progress, setProgress] = useState(null);
 
   useEffect(() => {
     if (profile) {
@@ -26,11 +28,12 @@ const UpdateForm = ({ profile, fetchWriter }) => {
         ? profile.name.split(" ")
         : ["", ""];
       setData({
-        firstName: firstName,
-        lastName: lastName,
-        email: profile.email,
+        firstName: firstName || "",
+        lastName: lastName || "",
+        email: profile.email || "",
       });
-      setFileUrl(profile.image);
+      setPass("");
+      setFileUrl(profile.image || "");
     }
   }, [profile]);
 
@@ -44,10 +47,11 @@ const UpdateForm = ({ profile, fetchWriter }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
+    setIsLoading(true);
     const res = await updateUser(user?.token, {
       ...data,
+      password: profile?.provider === "Authorised" && pass,
       image: fileUrl,
     });
 
@@ -60,6 +64,7 @@ const UpdateForm = ({ profile, fetchWriter }) => {
     }
 
     setData({ firstName: "", lastName: "", email: "" });
+    setPass("");
     setFile("");
   };
 
@@ -80,7 +85,7 @@ const UpdateForm = ({ profile, fetchWriter }) => {
 
   useEffect(() => {
     if (file) {
-      uploadFile(setFileUrl, file);
+      uploadFile(setFileUrl, setProgress, file);
     }
   }, [file]);
 
@@ -110,7 +115,7 @@ const UpdateForm = ({ profile, fetchWriter }) => {
                   isRequired={true}
                 />
               </div>
-              <div className="w-full flex flex-col gap-1">
+              <div className="w-full flex flex-col gap-6">
                 <InputBox
                   type="email"
                   label="Email Address"
@@ -120,12 +125,23 @@ const UpdateForm = ({ profile, fetchWriter }) => {
                   onChange={handleChange}
                   isRequired={true}
                 />
+                {profile?.provider === "Authorised" && (
+                  <InputBox
+                    type="password"
+                    label="Password"
+                    placeholder="Enter new password"
+                    name="password"
+                    value={pass}
+                    onChange={(e) => setPass(e.target.value)}
+                    isRequired={true}
+                  />
+                )}
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between relative ">
                 <label
                   htmlFor="imgUpload"
-                  className="flex items-center gap-2 text-base text-black dark:text-gray-500 cursor-pointer py-2"
+                  className="flex items-center gap-2 text-base text-black dark:text-gray-500 cursor-pointer py-2 relative"
                 >
                   <input
                     id="imgUpload"
@@ -137,20 +153,40 @@ const UpdateForm = ({ profile, fetchWriter }) => {
                     accept=".jpg,.jpeg,.png"
                     required
                   />
-                  {fileUrl ? (
+                  <div className="relative p-2">
                     <img
-                      src={fileUrl}
-                      className="w-10 h-10 rounded-full object-cover"
+                      src={fileUrl || NoProfile}
+                      className="w-12 h-12 rounded-full object-cover"
                       alt={profile?.name}
                     />
-                  ) : (
-                    <img
-                      src={profile?.image === "" ? NoProfile : profile?.image}
-                      className="w-10 h-10 rounded-full object-cover"
-                      alt={profile?.name}
-                    />
-                  )}
-
+                    {progress !== null && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <svg className="h-14 w-14">
+                          <circle
+                            className="text-gray-300"
+                            strokeWidth="3"
+                            stroke="currentColor"
+                            fill="transparent"
+                            r="24"
+                            cx="29"
+                            cy="29"
+                          />
+                          <circle
+                            className="text-black"
+                            strokeWidth="3"
+                            strokeDasharray="125.6"
+                            strokeDashoffset={`calc(125.6 - (125.6 * ${progress}) / 100)`}
+                            strokeLinecap="round"
+                            stroke="currentColor"
+                            fill="transparent"
+                            r="24"
+                            cx="29"
+                            cy="29"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
                   <span>
                     {file ? (
                       file.name

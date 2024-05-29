@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { Button, InputBox, Logo } from "../components";
 import { verifyUser, resendOTP } from "../utils/apiCalls";
 import useStore from "../store";
+import { saveUserInfo } from "../utils";
 
 const OTPVerify = () => {
   const [otp, setOtp] = useState("");
-  const { user } = useStore();
-  const navigate = useNavigate();
+  const { user, signIn, setIsLoading } = useStore();
 
   const handleOTPChange = (e) => {
     setOtp(e.target.value);
@@ -18,12 +17,15 @@ const OTPVerify = () => {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
       const response = await verifyUser(user?.user?._id, otp, user.token);
 
       if (response?.success) {
+        setIsLoading(false);
+        saveUserInfo(user, signIn);
         toast.success(response.message);
-        navigate("/login");
       } else {
+        setIsLoading(false);
         toast.error(response.message);
       }
     } catch (error) {
@@ -33,11 +35,14 @@ const OTPVerify = () => {
 
   const handleResendOTP = async () => {
     try {
+      setIsLoading(true);
       const response = await resendOTP(user?.user?._id);
 
       if (response.success) {
+        setIsLoading(false);
         toast.success("OTP resent successfully");
       } else {
+        setIsLoading(false);
         toast.error("Failed to resend OTP");
       }
     } catch (error) {
@@ -75,17 +80,19 @@ const OTPVerify = () => {
                 onChange={handleOTPChange}
                 isRequired={true}
               />
-              <Button
-                label="Verify OTP"
-                type="submit"
-                styles="group relative w-full flex justify-center py-2.5 2xl:py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-black dark:bg-rose-800 hover:bg-rose-700 focus:outline-none"
-              />
+              <div className="flex gap-4">
+                <Button
+                  label="Verify OTP"
+                  type="submit"
+                  styles="w-full flex justify-center py-2 border border-transparent rounded-full text-white bg-black dark:bg-rose-800 hover:bg-rose-700 focus:outline-none"
+                />
+                <Button
+                  label="Resend OTP"
+                  styles="w-full flex justify-center py-2 bg-white text-black dark:bg-rose-800 dark:text-white rounded-full border dark:border-none border-gray-300"
+                  onClick={handleResendOTP}
+                />
+              </div>
             </form>
-            <Button
-              label="Resend OTP"
-              styles="w-full gap-4 bg-white text-black dark:bg-rose-800 dark:text-white px-5 py-2.5 rounded-full border dark:border-none border-gray-300"
-              onClick={handleResendOTP}
-            />
             <Toaster richColors />
           </div>
         </div>
