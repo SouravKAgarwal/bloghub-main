@@ -48,19 +48,36 @@ const UpdateForm = ({ profile, fetchWriter }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsLoading(true);
-    const res = await updateUser(user?.token, {
-      ...data,
-      password: profile?.provider === "Authorised" && pass,
-      image: fileUrl,
-    });
+    if (profile?.accountType === "Google") {
+      setIsLoading(true);
+      const res = await updateUser(user?.token, {
+        ...data,
+        image: fileUrl,
+      });
+      setIsLoading(false);
 
-    setIsLoading(false);
+      if (res?.success) {
+        localStorage.removeItem("userInfo");
+        saveUserInfo(res, signIn);
+        toast.success(res?.message);
+        fetchWriter();
+      }
+    } else {
+      setIsLoading(true);
+      const res = await updateUser(user?.token, {
+        ...data,
+        password: pass,
+        image: fileUrl,
+      });
 
-    if (res?.success) {
-      saveUserInfo(res, signIn);
-      toast.success(res?.message);
-      fetchWriter();
+      setIsLoading(false);
+
+      if (res?.success) {
+        localStorage.removeItem("userInfo");
+        saveUserInfo(res, signIn);
+        toast.success(res?.message);
+        fetchWriter();
+      }
     }
 
     setData({ firstName: "", lastName: "", email: "" });
