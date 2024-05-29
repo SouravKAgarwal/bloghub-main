@@ -20,16 +20,12 @@ const ProfilePage = () => {
   };
 
   const handleResendOTP = async () => {
-    try {
-      const response = await resendOTP(id);
+    const response = await resendOTP(id);
 
-      if (response.success) {
-        toast.success("OTP sent successfully");
-      } else {
-        toast.error("Failed to resend OTP");
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
+    if (response.success) {
+      toast.success("OTP sent successfully");
+    } else {
+      toast.error("Failed to resend OTP");
     }
   };
 

@@ -4,6 +4,7 @@ import { Button, InputBox, Logo } from "../components";
 import { verifyUser, resendOTP } from "../utils/apiCalls";
 import useStore from "../store";
 import { saveUserInfo } from "../utils";
+import { Navigate, useLocation } from "react-router-dom";
 
 const OTPVerify = () => {
   const [otp, setOtp] = useState("");
@@ -16,39 +17,36 @@ const OTPVerify = () => {
   const handleOTPSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setIsLoading(true);
-      const response = await verifyUser(user?.user?._id, otp, user.token);
+    setIsLoading(true);
+    const response = await verifyUser(user?.user?._id, otp, user.token);
 
-      if (response?.success) {
-        setIsLoading(false);
-        saveUserInfo(user, signIn);
-        toast.success(response.message);
-      } else {
-        setIsLoading(false);
-        toast.error(response.message);
-      }
-    } catch (error) {
-      toast.error("Verification failed or link is invalid");
+    setIsLoading(false);
+
+    if (response?.success) {
+      saveUserInfo(user, signIn);
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
     }
   };
 
   const handleResendOTP = async () => {
-    try {
-      setIsLoading(true);
-      const response = await resendOTP(user?.user?._id);
+    setIsLoading(true);
+    const response = await resendOTP(user?.user?._id);
 
-      if (response.success) {
-        setIsLoading(false);
-        toast.success("OTP resent successfully");
-      } else {
-        setIsLoading(false);
-        toast.error("Failed to resend OTP");
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
+    setIsLoading(false);
+
+    if (response.success) {
+      toast.success("OTP resent successfully");
+    } else {
+      toast.error("Failed to resend OTP");
     }
   };
+
+  const location = useLocation();
+
+  if (user?.user?.emailVerified)
+    return <Navigate to="/" state={{ from: location }} replace />;
 
   return (
     <div className="flex w-full h-[100vh] transition-all duration-500">
