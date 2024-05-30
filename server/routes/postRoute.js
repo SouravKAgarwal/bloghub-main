@@ -27,7 +27,7 @@ router.post("/create-post", userAuth, createPost);
 router.post("/comment/:id", userAuth, commentPost);
 
 // UPDATE POST
-router.patch("/update/:id", userAuth, updatePost);
+router.put("/update/:id", userAuth, updatePost);
 
 // GET POSTS ROUTES
 router.get("/", getPosts);

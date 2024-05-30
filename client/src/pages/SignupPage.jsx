@@ -1,6 +1,6 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState, useEffect } from "react";
-import { BiImages, BiUpload } from "react-icons/bi";
+import { BiUpload } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import { Logo, Button, Divider, InputBox } from "../components";
 import { getGoogleSignUp, emailSignUp } from "../utils/apiCalls";
 import useStore from "../store";
 import { saveUserInfo, uploadFile } from "../utils";
+import NoProfile from "../assets/profile.png";
 
 const SignupPage = () => {
   const { user, signIn, setIsLoading } = useStore();
@@ -159,22 +160,46 @@ const SignupPage = () => {
                         data-max-size="1024"
                         accept=".jpg,.jpeg,.png"
                       />
-                      <BiImages />
+                      <div className="relative p-2">
+                        <img
+                          src={fileUrl || NoProfile}
+                          className="w-12 h-12 rounded-full object-cover"
+                          alt="profile"
+                        />
+                        {progress !== null && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <svg className="h-14 w-14">
+                              <circle
+                                className="text-gray-300"
+                                strokeWidth="3"
+                                stroke="currentColor"
+                                fill="transparent"
+                                r="24"
+                                cx="29"
+                                cy="29"
+                              />
+                              <circle
+                                className="text-black"
+                                strokeWidth="3"
+                                strokeDasharray="125.6"
+                                strokeDashoffset={`calc(125.6 - (125.6 * ${progress}) / 100)`}
+                                strokeLinecap="round"
+                                stroke="currentColor"
+                                fill="transparent"
+                                r="24"
+                                cx="29"
+                                cy="29"
+                              />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
 
                       <span className="flex gap-1 items-center">
                         Upload <BiUpload />
                       </span>
                     </label>
                   </div>
-
-                  {progress !== null && (
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                      <div
-                        className="bg-blue-600 h-2.5 rounded-full"
-                        style={{ width: `${progress}%` }}
-                      ></div>
-                    </div>
-                  )}
                 </div>
                 {file ? (
                   <Button

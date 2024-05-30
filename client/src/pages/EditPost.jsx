@@ -1,28 +1,54 @@
 import { useEffect, useState } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Button, InputBox } from "../components";
 import { createSlug, uploadFile } from "../utils";
+import { updatePost, getSinglePost } from "../utils/apiCalls";
 import { BiUpload } from "react-icons/bi";
 import Placeholder from "../assets/placeholder.png";
 import useStore from "../store";
-import { createPost } from "../utils/apiCalls";
 import { Toaster, toast } from "sonner";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useNavigate } from "react-router-dom";
 
-const WritePost = () => {
+const EditPost = () => {
   const { user, setIsLoading } = useStore();
+  const { postId } = useParams();
+
+  const [postData, setPostData] = useState([]);
   const [data, setData] = useState({
     title: "",
     cat: "",
     desc: "",
   });
 
+  console.log(data);
   const [files, setFiles] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
   const [progress, setProgress] = useState({});
 
   const navigate = useNavigate();
+
+  const fetchPostData = async () => {
+    const post = await getSinglePost(postId);
+    setPostData(post);
+  };
+
+  useEffect(() => {
+    fetchPostData();
+  }, [postId]);
+
+  useEffect(() => {
+    if (postData) {
+      setData({
+        title: postData?.title,
+        cat: postData?.cat,
+        desc: postData?.desc,
+      });
+      setFileUrls(postData?.img || []);
+    } else {
+      toast.error("Failed to fetch post data");
+    }
+  }, [postData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,7 +91,7 @@ const WritePost = () => {
 
     setIsLoading(true);
 
-    const res = await createPost(postData, user?.token);
+    const res = await updatePost(postId, postData, user?.token);
 
     setIsLoading(false);
 
@@ -75,7 +101,7 @@ const WritePost = () => {
       toast.error(res.message);
     }
 
-    setData({ title: "", cat: "", desc: "" });
+    setData({ title: "", desc: "", cat: "" });
     setFileUrls([]);
     navigate("/");
   };
@@ -90,7 +116,7 @@ const WritePost = () => {
               className="w-full md:flex-1"
               placeholder="Post Title"
               name="title"
-              value={data.title}
+              value={data?.title}
               onChange={handleChange}
             />
             <InputBox
@@ -98,7 +124,7 @@ const WritePost = () => {
               className="w-full md:flex-1"
               placeholder="Select Category"
               name="cat"
-              value={data.cat}
+              value={data?.cat}
               onChange={handleChange}
               options={["FASHION", "NEWS", "CODING", "EDUCATION", "SPORTS"]}
             />
@@ -109,7 +135,7 @@ const WritePost = () => {
             </label>
             <ReactQuill
               theme="snow"
-              value={data.desc}
+              value={data?.desc}
               onChange={handleDescChange}
               modules={{
                 toolbar: [
@@ -211,7 +237,7 @@ const WritePost = () => {
           ))}
         </div>
         <Button
-          label="Create Post"
+          label="Update Post"
           type="submit"
           styles="mt-4 py-2 bg-rose-600 text-white rounded-full"
         />
@@ -221,4 +247,4 @@ const WritePost = () => {
   );
 };
 
-export default WritePost;
+export default EditPost;

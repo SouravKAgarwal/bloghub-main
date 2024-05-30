@@ -52,7 +52,7 @@ export const register = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ success: false, message: error.message });
   }
 };
 
@@ -87,7 +87,7 @@ export const googleSignUp = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ success: false, message: error.message });
   }
 };
 
@@ -123,7 +123,9 @@ export const login = async (req, res, next) => {
     const isMatch = await compareString(password, user?.password);
 
     if (!isMatch) {
-      return next("Invalid email or password");
+      res
+        .status(404)
+        .json({ success: false, message: "Invalid email or password" });
     }
 
     if (user?.accountType === "Writer" && !user?.emailVerified) {
@@ -142,6 +144,6 @@ export const login = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ success: "failed", message: error.message });
+    res.status(404).json({ success: false, message: error.message });
   }
 };

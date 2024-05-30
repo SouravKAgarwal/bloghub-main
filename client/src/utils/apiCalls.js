@@ -250,3 +250,39 @@ export const resendOTP = async (id) => {
     return err;
   }
 };
+
+export const createPost = async (formData, token) => {
+  try {
+    const { data } = await axios.post(
+      `${API_URI}/posts/create-post`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    return err;
+  }
+};
+
+export const updatePost = async (id, formData, token) => {
+  try {
+    const { data } = await axios.put(
+      `${API_URI}/posts/update/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    return err;
+  }
+};

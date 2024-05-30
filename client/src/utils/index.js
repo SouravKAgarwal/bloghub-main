@@ -6,8 +6,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 
-export const API_URI = "https://bloghubmern.onrender.com";
-// export const API_URI = "http://localhost:8800";
+// export const API_URI = "https://bloghubmern.onrender.com";
+export const API_URI = "http://localhost:8800";
 
 export function getInitials(fullName) {
   const names = fullName.split(" ");
@@ -16,6 +16,16 @@ export function getInitials(fullName) {
   const initialStr = initials.join("");
 
   return initialStr;
+}
+
+export function createSlug(title) {
+  return title
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
 }
 
 export function formatNumber(num) {

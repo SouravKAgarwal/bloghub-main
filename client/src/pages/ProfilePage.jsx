@@ -1,18 +1,35 @@
 import { Link, useParams } from "react-router-dom";
 import UpdateForm from "../components/UpdateForm";
-import { usePosts } from "../hooks/postHooks";
+import { usePopularPosts, usePosts } from "../hooks/postHooks";
 import { formatNumber } from "../utils";
 import { getWriterInfo, resendOTP } from "../utils/apiCalls";
 import { useEffect, useState } from "react";
 import NoProfile from "../assets/profile.png";
 import { toast } from "sonner";
 import { BiArrowToRight } from "react-icons/bi";
+import {
+  Button,
+  Card,
+  Pagination,
+  PopularPost,
+  PopularWriters,
+} from "../components";
 
 const ProfilePage = () => {
   const { id } = useParams();
-  const { posts } = usePosts({ writerId: id });
+  const { posts, setPage, numOfPages } = usePosts({ writerId: id });
+  const popular = usePopularPosts();
 
+  const [showForm, setShowForm] = useState(false);
   const [profile, setProfile] = useState("");
+
+  const handleShowForm = () => {
+    setShowForm((prev) => !prev);
+  };
+
+  const handlePageChange = (val) => {
+    setPage(val);
+  };
 
   const fetchWriter = async () => {
     const res = await getWriterInfo(id);
@@ -59,26 +76,35 @@ const ProfilePage = () => {
           <span className="text-sm text-gray-500 -mt-4">
             {profile?.accountType}
           </span>
-          {profile?.emailVerified ? (
-            <div className="flex">
-              <div className="flex items-center bg-green-500 rounded-full px-4 py-1.5">
-                <p className="text-white font-semibold">Verified</p>
+          <div className="flex gap-4">
+            {profile?.emailVerified ? (
+              <div className="flex">
+                <div className="flex items-center bg-green-500 rounded-full px-4 py-1.5">
+                  <p className="text-white font-semibold">Verified</p>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="flex">
-              <div className="flex items-center bg-red-500 rounded-full px-4 py-1.5">
-                <Link
-                  className="flex gap-2 items-center text-white font-semibold"
-                  onClick={handleResendOTP}
-                  to={`/verify/${id}`}
-                >
-                  Verification Pending
-                  <BiArrowToRight className="text-xl" />
-                </Link>
+            ) : (
+              <div className="flex">
+                <div className="flex items-center bg-red-500 rounded-full px-4 py-1.5">
+                  <Link
+                    className="flex gap-2 items-center text-white font-semibold"
+                    onClick={handleResendOTP}
+                    to={`/verify/${id}`}
+                  >
+                    Verification Pending
+                    <BiArrowToRight className="text-xl" />
+                  </Link>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+            {profile?.accountType === "Writer" && (
+              <Button
+                label="Edit Profile"
+                styles="gap-4 bg-white text-black dark:bg-rose-800 dark:text-white px-5 py-2.5 rounded-full border dark:border-none border-gray-300"
+                onClick={handleShowForm}
+              />
+            )}
+          </div>
           {profile?.accountType === "Writer" ? (
             <div className="flex gap-10">
               <div className="flex flex-col items-center">
@@ -106,7 +132,59 @@ const ProfilePage = () => {
           )}
         </div>
       </div>
-      <UpdateForm profile={profile} fetchWriter={fetchWriter} />
+
+      <div className="flex w-full flex-col md:flex-row gap-10 2xl:gap-20">
+        {profile?.accountType === "User" ? (
+          <>
+            <div className="w-full md:w-2/3">
+              <UpdateForm profile={profile} fetchWriter={fetchWriter} />
+            </div>
+
+            <div className="w-full md:w-1/4 flex flex-col gap-y-12">
+              <PopularPost posts={popular?.posts} />
+              <PopularWriters data={popular?.writers} />
+            </div>
+          </>
+        ) : (
+          <div className="w-full">
+            {showForm && (
+              <UpdateForm profile={profile} fetchWriter={fetchWriter} />
+            )}
+          </div>
+        )}
+      </div>
+
+      {profile?.accountType === "Writer" && (
+        <div className="flex w-full flex-col md:flex-row gap-10 2xl:gap-20 mt-16">
+          <div className="w-full md:w-2/3 gap-10 flex flex-col">
+            {posts?.length === 0 ? (
+              <div className="w-full h-full px-8 flex place-items-center justify-center">
+                <span className="text-lg text-slate-500">
+                  No posts available!
+                </span>
+              </div>
+            ) : (
+              <>
+                {posts?.map((post, index) => (
+                  <Card key={post?._id} post={post} index={index} />
+                ))}
+
+                <div className="w-full flex items-center justify-center">
+                  <Pagination
+                    totalPages={numOfPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="w-full md:w-1/4 flex flex-col gap-y-12">
+            <PopularPost posts={popular?.posts} />
+            <PopularWriters data={popular?.writers} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

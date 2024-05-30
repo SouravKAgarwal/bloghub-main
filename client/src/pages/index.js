@@ -7,6 +7,7 @@ import WriterPage from "./WriterPage";
 import ProfilePage from "./ProfilePage";
 import WritePost from "./WritePost";
 import OTPVerify from "./OTPVerify";
+import EditPost from "./EditPost"
 
 export {
   Home,
@@ -18,4 +19,5 @@ export {
   ProfilePage,
   WritePost,
   OTPVerify,
+  EditPost
 };

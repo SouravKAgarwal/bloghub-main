@@ -192,13 +192,13 @@ export const createPost = async (req, res, next) => {
     });
 
     res.status(200).json({
-      sucess: true,
+      success: true,
       message: "Post created successfully",
       data: post,
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ success: false, message: error.message });
   }
 };
 
@@ -248,13 +248,13 @@ export const updatePost = async (req, res, next) => {
     );
 
     res.status(200).json({
-      sucess: true,
+      success: true,
       message: "Action performed successfully",
       data: post,
     });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ success: false, message: error.message });
   }
 };
 
@@ -402,7 +402,7 @@ export const getComments = async (req, res, next) => {
       .sort({ _id: -1 });
 
     res.status(200).json({
-      sucess: true,
+      success: true,
       message: "successfully",
       data: postComments,
     });
@@ -445,7 +445,9 @@ export const deleteComment = async (req, res, next) => {
         .status(200)
         .json({ success: true, message: "Comment removed successfully" });
     } else {
-      res.status(404).json({ message: "Post or comment not found" });
+      res
+        .status(404)
+        .json({ success: false, message: "Post or comment not found" });
     }
   } catch (error) {
     console.log(error);
