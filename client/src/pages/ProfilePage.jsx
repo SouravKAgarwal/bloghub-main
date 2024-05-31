@@ -133,7 +133,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="flex w-full flex-col md:flex-row gap-10 2xl:gap-20">
+      <div className="flex w-full flex-col md:flex-row gap-10 2xl:gap-20 -mt-16">
         {profile?.accountType === "User" ? (
           <>
             <div className="w-full md:w-2/3">
