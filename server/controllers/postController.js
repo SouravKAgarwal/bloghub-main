@@ -417,6 +417,8 @@ export const deletePost = async (req, res, next) => {
     const { userId } = req.body.user;
     const { id } = req.params;
 
+    await Views.deleteMany({ post: id });
+    await Comments.deleteMany({ post: id });
     await Posts.findOneAndDelete({ _id: id, user: userId });
 
     res.status(200).json({

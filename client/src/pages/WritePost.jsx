@@ -18,9 +18,9 @@ const WritePost = () => {
     desc: "",
   });
 
-  const [files, setFiles] = useState([]);
-  const [fileUrls, setFileUrls] = useState([]);
-  const [progress, setProgress] = useState({});
+  const [file, setFile] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
+  const [progress, setProgress] = useState(null);
 
   const navigate = useNavigate();
 
@@ -37,20 +37,10 @@ const WritePost = () => {
   };
 
   useEffect(() => {
-    if (files.length > 0) {
-      files.forEach((file) => {
-        uploadFile(
-          (url) => setFileUrls((prev) => [...prev, url]),
-          (prog) => setProgress((prev) => ({ ...prev, [file.name]: prog })),
-          file
-        );
-      });
+    if (file) {
+      uploadFile(setFileUrl, setProgress, file);
     }
-  }, [files]);
-
-  const handleFileChange = (e) => {
-    setFiles(Array.from(e.target.files));
-  };
+  }, [file]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +50,7 @@ const WritePost = () => {
     const postData = {
       ...data,
       slug,
-      img: fileUrls,
+      img: fileUrl,
     };
 
     setIsLoading(true);
@@ -76,7 +66,7 @@ const WritePost = () => {
     }
 
     setData({ title: "", cat: "", desc: "" });
-    setFileUrls([]);
+    setFileUrl("");
     navigate("/");
   };
 
@@ -145,8 +135,7 @@ const WritePost = () => {
           >
             <input
               type="file"
-              onChange={handleFileChange}
-              multiple
+              onChange={(e) => setFile(e.target.files[0])}
               className="hidden"
               data-max-size="5120"
               id="imgUpload"
@@ -154,11 +143,11 @@ const WritePost = () => {
             />
             <div className="relative p-2">
               <img
-                src={fileUrls.length > 0 ? fileUrls[0] : Placeholder}
+                src={fileUrl || Placeholder}
                 className="w-12 h-12 rounded-full object-cover"
                 alt="profile"
               />
-              {Object.keys(progress).length > 0 && (
+              {progress != null && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <svg className="h-14 w-14">
                     <circle
@@ -174,8 +163,7 @@ const WritePost = () => {
                       className="text-black"
                       strokeWidth="3"
                       strokeDasharray="125.6"
-                      strokeDashoffset={`calc(125.6 - (125.6 * ${Math.max(
-                        ...Object.values(progress)
+                      strokeDashoffset={`calc(125.6 - (125.6 * ${progress}
                       )}) / 100)`}
                       strokeLinecap="round"
                       stroke="currentColor"
@@ -189,8 +177,8 @@ const WritePost = () => {
               )}
             </div>
             <span>
-              {files.length > 0 ? (
-                `${files.length} files selected`
+              {file.length > 0 ? (
+                `${file.length} files selected`
               ) : (
                 <span className="flex items-center gap-1">
                   Upload
@@ -201,14 +189,13 @@ const WritePost = () => {
           </label>
         </div>
         <div className="w-full flex flex-wrap gap-3">
-          {fileUrls.map((url, index) => (
+          {fileUrl && (
             <img
-              key={index}
-              src={url}
+              src={fileUrl}
               className="w-24 h-24 object-cover rounded"
-              alt={`upload-${index}`}
+              alt={`${file}`}
             />
-          ))}
+          )}
         </div>
         <Button
           label="Create Post"

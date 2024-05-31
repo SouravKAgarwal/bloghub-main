@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, InputBox } from "../components";
 import { createSlug, uploadFile } from "../utils";
 import { updatePost, getSinglePost } from "../utils/apiCalls";
@@ -22,9 +22,9 @@ const EditPost = () => {
   });
 
   console.log(data);
-  const [files, setFiles] = useState([]);
-  const [fileUrls, setFileUrls] = useState([]);
-  const [progress, setProgress] = useState({});
+  const [file, setFile] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
+  const [progress, setProgress] = useState(null);
 
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ const EditPost = () => {
 
   useEffect(() => {
     fetchPostData();
-  }, [postId]);
+  });
 
   useEffect(() => {
     if (postData) {
@@ -44,7 +44,7 @@ const EditPost = () => {
         cat: postData?.cat,
         desc: postData?.desc,
       });
-      setFileUrls(postData?.img || []);
+      setFileUrl(postData?.img || "");
     } else {
       toast.error("Failed to fetch post data");
     }
@@ -63,20 +63,10 @@ const EditPost = () => {
   };
 
   useEffect(() => {
-    if (files.length > 0) {
-      files.forEach((file) => {
-        uploadFile(
-          (url) => setFileUrls((prev) => [...prev, url]),
-          (prog) => setProgress((prev) => ({ ...prev, [file.name]: prog })),
-          file
-        );
-      });
+    if (file) {
+      uploadFile(setFileUrl, setProgress, file);
     }
-  }, [files]);
-
-  const handleFileChange = (e) => {
-    setFiles(Array.from(e.target.files));
-  };
+  }, [file]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +76,7 @@ const EditPost = () => {
     const postData = {
       ...data,
       slug,
-      img: fileUrls,
+      img: fileUrl,
     };
 
     setIsLoading(true);
@@ -102,7 +92,7 @@ const EditPost = () => {
     }
 
     setData({ title: "", desc: "", cat: "" });
-    setFileUrls([]);
+    setFileUrl([]);
     navigate("/");
   };
 
@@ -171,8 +161,7 @@ const EditPost = () => {
           >
             <input
               type="file"
-              onChange={handleFileChange}
-              multiple
+              onChange={(e) => setFile(e.target.files[0])}
               className="hidden"
               data-max-size="5120"
               id="imgUpload"
@@ -180,11 +169,11 @@ const EditPost = () => {
             />
             <div className="relative p-2">
               <img
-                src={fileUrls.length > 0 ? fileUrls[0] : Placeholder}
+                src={fileUrl || Placeholder}
                 className="w-12 h-12 rounded-full object-cover"
                 alt="profile"
               />
-              {Object.keys(progress).length > 0 && (
+              {progress != null && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <svg className="h-14 w-14">
                     <circle
@@ -215,8 +204,8 @@ const EditPost = () => {
               )}
             </div>
             <span>
-              {files.length > 0 ? (
-                `${files.length} files selected`
+              {file.length > 0 ? (
+                `${file.length} files selected`
               ) : (
                 <span className="flex items-center gap-1">
                   Upload
@@ -227,14 +216,11 @@ const EditPost = () => {
           </label>
         </div>
         <div className="w-full flex flex-wrap gap-3">
-          {fileUrls.map((url, index) => (
-            <img
-              key={index}
-              src={url}
-              className="w-24 h-24 object-cover rounded"
-              alt={`upload-${index}`}
-            />
-          ))}
+          <img
+            src={fileUrl}
+            className="w-24 h-24 object-cover rounded"
+            alt={`${file}`}
+          />
         </div>
         <Button
           label="Update Post"

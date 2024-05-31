@@ -1,5 +1,6 @@
 import Verification from "../models/emailVerification.js";
 import Followers from "../models/followersModel.js";
+import Posts from "../models/postModel.js";
 import Users from "../models/userModel.js";
 import { compareString, generateToken, hashString } from "../utils/index.js";
 import { sendVerificationEmail } from "../utils/sendEmail.js";
@@ -198,6 +199,8 @@ export const deleteUser = async (req, res, next) => {
     const user = await Users.findById(id);
 
     if (user) {
+      await Posts.deleteMany({ user: id });
+      await Followers.deleteMany({ writerId: id });
       await Users.findByIdAndDelete(id);
       res.status(201).json({
         success: true,

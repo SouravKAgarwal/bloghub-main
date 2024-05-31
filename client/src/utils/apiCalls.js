@@ -286,3 +286,20 @@ export const updatePost = async (id, formData, token) => {
     return err;
   }
 };
+
+export const deletePost = async (id, token) => {
+  try {
+    const result = await axios.delete(`${API_URI}/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return result?.data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    console.log(error);
+
+    return err;
+  }
+};

@@ -3,9 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import useStore from "../store";
 import { PopularPost, PopularWriters, PostComments } from "../components";
 import Markdown from "markdown-to-jsx";
-import { getSinglePost } from "../utils/apiCalls";
+import { deletePost, getSinglePost } from "../utils/apiCalls";
 import { usePopularPosts } from "../hooks/postHooks";
-import { BiPencil } from "react-icons/bi";
+import { BiPencil, BiTrash } from "react-icons/bi";
+import { Toaster, toast } from "sonner";
 
 const BlogDetails = () => {
   const { user, setIsLoading } = useStore();
@@ -15,6 +16,18 @@ const BlogDetails = () => {
 
   const navigate = useNavigate();
 
+  const handleDeletePost = async () => {
+    setIsLoading(true);
+    const res = await deletePost(id, user?.token);
+    setIsLoading(false);
+
+    if (res?.success) {
+      toast.success(res?.message);
+      navigate("/");
+    } else {
+      toast.error(res?.message);
+    }
+  };
   useEffect(() => {
     const fetchPost = async () => {
       setIsLoading(true);
@@ -45,7 +58,10 @@ const BlogDetails = () => {
           <h1 className="flex items-center gap-2 text-3xl md:text-5xl font-bold text-slate-800 dark:text-white">
             {post?.title}
             {post?.user?._id === user?.user?._id && (
-              <BiPencil onClick={() => navigate(`/edit/${id}`)} />
+              <div className="flex gap-2 opacity-50">
+                <BiPencil onClick={() => navigate(`/edit/${id}`)} />
+                <BiTrash onClick={handleDeletePost} />
+              </div>
             )}
           </h1>
           <div className="w-full flex items-center">
@@ -81,6 +97,7 @@ const BlogDetails = () => {
           <PopularWriters data={popular?.writers} />
         </div>
       </div>
+      <Toaster richColors />
     </div>
   );
 };
