@@ -136,13 +136,15 @@ export const updateUser = async (req, res, next) => {
       return next("Please provide all required fields");
     }
 
+    const findUser = await Users.findById(userId);
+
     const hashedPassword = await hashString(password);
 
     const updateUser = {
       name: firstName + " " + lastName,
       email,
       image,
-      password: hashedPassword,
+      password: password ? hashedPassword : findUser?.password,
       _id: userId,
     };
 

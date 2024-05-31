@@ -124,6 +124,7 @@ const EditPost = () => {
             </label>
             <ReactQuill
               theme="snow"
+              className="text-black dark:text-white"
               value={data?.desc}
               onChange={handleDescChange}
               modules={{
@@ -176,7 +177,7 @@ const EditPost = () => {
                   <svg className="h-14 w-14">
                     <circle
                       className="text-gray-300"
-                      strokeWidth="3"
+                      strokeWidth="2"
                       stroke="currentColor"
                       fill="transparent"
                       r="24"
@@ -184,8 +185,8 @@ const EditPost = () => {
                       cy="29"
                     />
                     <circle
-                      className="text-black"
-                      strokeWidth="3"
+                      className="text-black dark:text-white"
+                      strokeWidth="2"
                       strokeDasharray="0"
                       strokeDashoffset={`${progress}`}
                       strokeLinecap="round"

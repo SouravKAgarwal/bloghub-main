@@ -32,7 +32,6 @@ const UpdateForm = ({ profile, fetchWriter }) => {
         lastName: lastName || "",
         email: profile.email || "",
       });
-      setPass("");
       setFileUrl(profile.image || "");
     }
   }, [profile]);

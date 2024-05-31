@@ -99,6 +99,7 @@ const WritePost = () => {
             </label>
             <ReactQuill
               theme="snow"
+              className="text-black dark:text-white"
               value={data.desc}
               onChange={handleDescChange}
               modules={{
@@ -159,7 +160,7 @@ const WritePost = () => {
                       cy="29"
                     />
                     <circle
-                      className="text-black"
+                      className="text-black dark:text-white"
                       strokeWidth="3"
                       strokeDasharray="0"
                       strokeDashoffset={`${progress}`}
