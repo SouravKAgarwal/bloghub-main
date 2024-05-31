@@ -44,33 +44,43 @@ const MobileMenu = ({ user, signOut }) => {
       {isMenuOpen && (
         <div className="fixed top-0 left-0 w-full h-fit bg-white dark:bg-[#020b19] z-50 flex flex-col py-10 items-center justify-center shadow-xl gap-8">
           <Logo />
-          <ul className="flex flex-col gap-4 text-base dark:text-gray-300 text-black">
-            {user?.token && user?.user?.accountType === "Writer" ? (
-              <div>
-                <li onClick={toggleMenu}>
-                  <Link to="/">Home</Link>
-                </li>
-                <li onClick={toggleMenu}>
-                  <Link to="/write">Create</Link>
-                </li>
-                <li onClick={toggleMenu}>
-                  <Link to="/">Contact</Link>
-                </li>
-              </div>
-            ) : (
-              <div>
-                <li onClick={toggleMenu}>
-                  <Link to="/">Home</Link>
-                </li>
-                <li onClick={toggleMenu}>
-                  <Link to="/">About</Link>
-                </li>
-                <li onClick={toggleMenu}>
-                  <Link to="/">Contact</Link>
-                </li>
-              </div>
-            )}
-          </ul>
+          {user?.token && user?.user?.accountType === "Writer" ? (
+            <ul className="flex flex-col gap-4 text-base dark:text-gray-300 text-black font-semibold">
+              <Link
+                className="hover:text-slate-500"
+                to="/"
+                onClick={toggleMenu}
+              >
+                Home
+              </Link>
+              <Link
+                className="hover:text-slate-500"
+                to="/write"
+                onClick={toggleMenu}
+              >
+                Create
+              </Link>
+              <Link
+                className="hover:text-slate-500"
+                to="/"
+                onClick={toggleMenu}
+              >
+                Contact
+              </Link>
+            </ul>
+          ) : (
+            <div>
+              <li onClick={toggleMenu}>
+                <Link to="/">Home</Link>
+              </li>
+              <li onClick={toggleMenu}>
+                <Link to="/">About</Link>
+              </li>
+              <li onClick={toggleMenu}>
+                <Link to="/">Contact</Link>
+              </li>
+            </div>
+          )}
 
           <div className="flex gap-2 items-center">
             {user?.token ? (

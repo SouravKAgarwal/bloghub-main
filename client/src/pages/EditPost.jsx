@@ -39,9 +39,9 @@ const EditPost = () => {
   useEffect(() => {
     if (postData) {
       setData({
-        title: postData?.title,
-        cat: postData?.cat,
-        desc: postData?.desc,
+        title: postData?.title || "",
+        cat: postData?.cat || "",
+        desc: postData?.desc || "",
       });
       setFileUrl(postData?.img || "");
     } else {
