@@ -69,17 +69,29 @@ const MobileMenu = ({ user, signOut }) => {
               </Link>
             </ul>
           ) : (
-            <div>
-              <li onClick={toggleMenu}>
-                <Link to="/">Home</Link>
-              </li>
-              <li onClick={toggleMenu}>
-                <Link to="/">About</Link>
-              </li>
-              <li onClick={toggleMenu}>
-                <Link to="/">Contact</Link>
-              </li>
-            </div>
+            <ul className="flex flex-col gap-4 text-base dark:text-gray-300 text-black font-semibold">
+              <Link
+                className="hover:text-slate-500"
+                to="/"
+                onClick={toggleMenu}
+              >
+                Home
+              </Link>
+              <Link
+                className="hover:text-slate-500"
+                to="/"
+                onClick={toggleMenu}
+              >
+                About
+              </Link>
+              <Link
+                className="hover:text-slate-500"
+                to="/"
+                onClick={toggleMenu}
+              >
+                Contact
+              </Link>
+            </ul>
           )}
 
           <div className="flex gap-2 items-center">
