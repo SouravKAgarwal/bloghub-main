@@ -21,7 +21,6 @@ const EditPost = () => {
     desc: "",
   });
 
-  console.log(data);
   const [file, setFile] = useState("");
   const [fileUrl, setFileUrl] = useState("");
   const [progress, setProgress] = useState(null);
@@ -35,7 +34,7 @@ const EditPost = () => {
 
   useEffect(() => {
     fetchPostData();
-  });
+  }, []);
 
   useEffect(() => {
     if (postData) {
@@ -133,7 +132,7 @@ const EditPost = () => {
                   [{ size: [] }],
                   ["bold", "italic", "underline", "strike", "blockquote"],
                   [{ list: "ordered" }, { list: "bullet" }],
-                  ["link", "image"],
+                  ["link"],
                   [{ color: [] }, { background: [] }],
                 ],
               }}
@@ -149,7 +148,6 @@ const EditPost = () => {
                 "list",
                 "bullet",
                 "link",
-                "image",
                 "color",
                 "background",
               ]}
@@ -188,10 +186,8 @@ const EditPost = () => {
                     <circle
                       className="text-black"
                       strokeWidth="3"
-                      strokeDasharray="125.6"
-                      strokeDashoffset={`calc(125.6 - (125.6 * ${Math.max(
-                        ...Object.values(progress)
-                      )}) / 100)`}
+                      strokeDasharray="0"
+                      strokeDashoffset={`${progress}`}
                       strokeLinecap="round"
                       stroke="currentColor"
                       fill="transparent"
@@ -204,8 +200,8 @@ const EditPost = () => {
               )}
             </div>
             <span>
-              {file.length > 0 ? (
-                `${file.length} files selected`
+              {file ? (
+                `1 file selected`
               ) : (
                 <span className="flex items-center gap-1">
                   Upload
