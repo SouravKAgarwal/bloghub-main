@@ -133,26 +133,24 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="flex w-full flex-col md:flex-row gap-10 2xl:gap-20 -mt-2">
-        {profile?.accountType === "User" ? (
-          <>
-            <div className="w-full md:w-2/3">
-              <UpdateForm profile={profile} fetchWriter={fetchWriter} />
-            </div>
-
-            <div className="w-full md:w-1/4 flex flex-col gap-y-12">
-              <PopularPost posts={popular?.posts} />
-              <PopularWriters data={popular?.writers} />
-            </div>
-          </>
-        ) : (
-          <div className="w-full">
-            {showForm && (
-              <UpdateForm profile={profile} fetchWriter={fetchWriter} />
-            )}
+      {profile?.accountType === "User" ? (
+        <div className="flex w-full flex-col md:flex-row gap-10 2xl:gap-20">
+          <div className="w-full md:w-2/3 -mt-8 md:-mt-96 lg:-mt-72 ">
+            <UpdateForm profile={profile} fetchWriter={fetchWriter} />
           </div>
-        )}
-      </div>
+
+          <div className="w-full md:w-1/4 flex flex-col gap-y-12">
+            <PopularPost posts={popular?.posts} />
+            <PopularWriters data={popular?.writers} />
+          </div>
+        </div>
+      ) : (
+        <div className="w-full">
+          {showForm && (
+            <UpdateForm profile={profile} fetchWriter={fetchWriter} />
+          )}
+        </div>
+      )}
 
       {profile?.accountType === "Writer" && (
         <div className="flex w-full flex-col md:flex-row gap-10 2xl:gap-20 mt-16">

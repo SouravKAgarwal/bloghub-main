@@ -25,6 +25,8 @@ const EditPost = () => {
   const [fileUrl, setFileUrl] = useState("");
   const [progress, setProgress] = useState(null);
 
+  const slug = createSlug(data?.title);
+
   const navigate = useNavigate();
 
   const fetchPostData = async () => {
@@ -118,8 +120,8 @@ const EditPost = () => {
               options={["FASHION", "NEWS", "CODING", "EDUCATION", "SPORTS"]}
             />
           </div>
-          <div className="w-full">
-            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-400">
+          <div className="w-full flex flex-col gap-1">
+            <label className="text-slate-900 dark:text-white">
               Description
             </label>
             <ReactQuill
@@ -129,8 +131,6 @@ const EditPost = () => {
               onChange={handleDescChange}
               modules={{
                 toolbar: [
-                  [{ header: "1" }, { header: "2" }, { font: [] }],
-                  [{ size: [] }],
                   ["bold", "italic", "underline", "strike", "blockquote"],
                   [{ list: "ordered" }, { list: "bullet" }],
                   ["link"],
@@ -138,9 +138,6 @@ const EditPost = () => {
                 ],
               }}
               formats={[
-                "header",
-                "font",
-                "size",
                 "bold",
                 "italic",
                 "underline",
@@ -219,11 +216,19 @@ const EditPost = () => {
             alt={`${file}`}
           />
         </div>
-        <Button
-          label="Update Post"
-          type="submit"
-          styles="mt-4 py-2 bg-rose-600 text-white rounded-full"
-        />
+        <div className="flex gap-4">
+          <Button
+            label="Update Post"
+            type="submit"
+            styles="mt-4 py-2 px-4 bg-black text-white rounded-full"
+          />
+          <Button
+            label="Discard"
+            type="submit"
+            onClick={() => navigate(`/${slug}/${postId}`)}
+            styles="mt-4 py-2 px-4 bg-rose-600 text-white rounded-full"
+          />
+        </div>
       </form>
       <Toaster richColors />
     </div>

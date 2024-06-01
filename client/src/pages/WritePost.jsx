@@ -93,8 +93,8 @@ const WritePost = () => {
               options={["FASHION", "NEWS", "CODING", "EDUCATION", "SPORTS"]}
             />
           </div>
-          <div className="w-full">
-            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-400">
+          <div className="w-full flex flex-col gap-1">
+            <label className="text-slate-900 dark:text-white">
               Description
             </label>
             <ReactQuill
@@ -104,8 +104,6 @@ const WritePost = () => {
               onChange={handleDescChange}
               modules={{
                 toolbar: [
-                  [{ header: "1" }, { header: "2" }, { font: [] }],
-                  [{ size: [] }],
                   ["bold", "italic", "underline", "strike", "blockquote"],
                   [{ list: "ordered" }, { list: "bullet" }],
                   ["link"],
@@ -113,9 +111,6 @@ const WritePost = () => {
                 ],
               }}
               formats={[
-                "header",
-                "font",
-                "size",
                 "bold",
                 "italic",
                 "underline",
@@ -147,7 +142,7 @@ const WritePost = () => {
                 className="w-12 h-12 rounded-full object-cover"
                 alt="profile"
               />
-              {progress != null && (
+              {progress !== null && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <svg className="h-14 w-14">
                     <circle
@@ -160,10 +155,10 @@ const WritePost = () => {
                       cy="29"
                     />
                     <circle
-                      className="text-black dark:text-white"
+                      className="text-black"
                       strokeWidth="3"
-                      strokeDasharray="0"
-                      strokeDashoffset={`${progress}`}
+                      strokeDasharray="125.6"
+                      strokeDashoffset={`calc(125.6 - (125.6 * ${progress}) / 100)`}
                       strokeLinecap="round"
                       stroke="currentColor"
                       fill="transparent"

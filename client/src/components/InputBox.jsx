@@ -19,7 +19,7 @@ const InputBox = ({
         <textarea
           name={name}
           required={isRequired}
-          className={`dark:bg-transparent appearance-none block w-full px-3 py-2.5 2xl:py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-300 dark:placeholder-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-base resize-none ${className}`}
+          className={`dark:bg-transparent appearance-none block w-full px-3 py-2.5 2xl:py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-300 dark:placeholder-white text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-base resize-none ${className}`}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
@@ -29,15 +29,15 @@ const InputBox = ({
         <select
           name={name}
           required={isRequired}
-          className={`dark:bg-transparent appearance-none block w-full px-3 py-2.5 2xl:py-3 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-base ${className}`}
+          className={`dark:bg-transparent appearance-none block w-full px-3 py-2.5 2xl:py-3 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-base ${className}`}
           value={value}
           onChange={onChange}
         >
-          <option value="" disabled>
+          <option value="" disabled className="text-black dark:text-gray-500">
             {placeholder}
           </option>
           {options.map((option) => (
-            <option key={option} value={option}>
+            <option key={option} value={option} className="text-black">
               {option}
             </option>
           ))}
@@ -47,7 +47,7 @@ const InputBox = ({
           type={type}
           name={name}
           required={isRequired}
-          className={`dark:bg-transparent appearance-none block w-full px-3 py-2.5 2xl:py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-300 dark:placeholder-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-base ${className}`}
+          className={`dark:bg-transparent appearance-none block w-full px-3 py-2.5 2xl:py-3 border border-gray-300 dark:border-gray-600 placeholder-gray-300 dark:placeholder-gray-500 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-base ${className}`}
           placeholder={placeholder}
           value={value}
           onChange={onChange}

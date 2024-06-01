@@ -57,12 +57,6 @@ const BlogDetails = () => {
         <div className="w-full md:w-1/2 flex flex-col gap-8">
           <h1 className="flex items-center gap-2 text-3xl md:text-5xl font-bold text-slate-800 dark:text-white">
             {post?.title}
-            {post?.user?._id === user?.user?._id && (
-              <div className="flex gap-2 opacity-50">
-                <BiPencil onClick={() => navigate(`/edit/${id}`)} />
-                <BiTrash onClick={handleDeletePost} />
-              </div>
-            )}
           </h1>
           <div className="w-full flex items-center">
             <span className="flex-1 text-rose-600 font-semibold">
@@ -71,6 +65,14 @@ const BlogDetails = () => {
             <span className="flex flex-1 items-baseline text-2xl font-medium text-slate-700 dark:text-slate-400">
               {post?.views?.length}
               <span className="text-base text-rose-600">Views</span>
+            </span>
+            <span className="flex flex-1 text-2xl font-semibold">
+              {post?.user?._id === user?.user?._id && (
+                <div className="flex gap-2 opacity-80">
+                  <BiPencil onClick={() => navigate(`/edit/${id}`)} className="text-black" />
+                  <BiTrash onClick={handleDeletePost} className="text-red-600" />
+                </div>
+              )}
             </span>
           </div>
         </div>

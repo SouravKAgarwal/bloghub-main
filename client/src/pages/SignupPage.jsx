@@ -19,6 +19,7 @@ const SignupPage = () => {
     lastName: "",
     email: "",
     password: "",
+    accountType: "User", // Default account type
   });
   const [file, setFile] = useState("");
   const [fileUrl, setFileUrl] = useState("");
@@ -30,6 +31,13 @@ const SignupPage = () => {
     setData({
       ...data,
       [name]: value,
+    });
+  };
+
+  const handleAccountTypeChange = (e) => {
+    setData({
+      ...data,
+      accountType: e.target.value,
     });
   };
 
@@ -67,7 +75,7 @@ const SignupPage = () => {
   useEffect(() => {
     if (user?.token && user?.user.provider === "Authorised")
       window.location.replace(`/verify/${user?.user?._id}`);
-  });
+  }, [user]);
 
   useEffect(() => {
     file && uploadFile(setFileUrl, setProgress, file);
@@ -87,7 +95,7 @@ const SignupPage = () => {
         <span className="text-xl font-semibold text-white">Hey, there!</span>
       </div>
       <div className="flex w-full md:w-2/3 h-full bg-white dark:bg-gradient-to-b md:dark:bg-gradient-to-r from-black via-[#03132f] to-black items-center px-10 md:px-20 lg:px-40">
-        <div className="h-full w-full justify-center flex flex-col items-center  py-12 px-4 sm:px-0 lg:px-8">
+        <div className="h-full w-full justify-center flex flex-col items-center py-12 px-4 sm:px-0 lg:px-8">
           <div className="block mb-10 md:hidden -ml-8">
             <Logo />
           </div>
@@ -147,6 +155,33 @@ const SignupPage = () => {
                     onChange={handleChange}
                     isRequired={true}
                   />
+                  <div className="w-full flex gap-16">
+                    <label className="text-base text-black dark:text-gray-500">
+                      I want to be 
+                    </label>
+                    <div className="flex gap-4">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name="accountType"
+                          value="User"
+                          checked={data.accountType === "User"}
+                          onChange={handleAccountTypeChange}
+                        />
+                        Reader
+                      </label>
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name="accountType"
+                          value="Writer"
+                          checked={data.accountType === "Writer"}
+                          onChange={handleAccountTypeChange}
+                        />
+                        Writer
+                      </label>
+                    </div>
+                  </div>
                   <div className="flex items-center justify-between">
                     <label
                       htmlFor="imgUpload"
@@ -194,7 +229,6 @@ const SignupPage = () => {
                           </div>
                         )}
                       </div>
-
                       <span className="flex gap-1 items-center">
                         Upload <BiUpload />
                       </span>
@@ -231,7 +265,6 @@ const SignupPage = () => {
                 />
               </div>
             )}
-
             <p className="max-w-md w-full text-center text-sm text-gray-600 dark:text-gray-300">
               Already have an account?{" "}
               <Link to="/login" className="text-rose-800 font-medium">
