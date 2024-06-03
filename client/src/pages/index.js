@@ -7,7 +7,11 @@ import WriterPage from "./WriterPage";
 import ProfilePage from "./ProfilePage";
 import WritePost from "./WritePost";
 import OTPVerify from "./OTPVerify";
-import EditPost from "./EditPost"
+import EditPost from "./EditPost";
+import Dashboard from "./Dashboard";
+import Analytics from "./Analytics";
+import Followers from "./Followers";
+import Contents from "./Contents";
 
 export {
   Home,
@@ -19,5 +23,9 @@ export {
   ProfilePage,
   WritePost,
   OTPVerify,
-  EditPost
+  EditPost,
+  Dashboard,
+  Analytics,
+  Followers,
+  Contents,
 };

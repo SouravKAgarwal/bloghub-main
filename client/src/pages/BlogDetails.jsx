@@ -68,8 +68,8 @@ const BlogDetails = () => {
             </span>
             <span className="flex flex-1 text-2xl font-semibold">
               {post?.user?._id === user?.user?._id && (
-                <div className="flex gap-2 opacity-80">
-                  <BiPencil onClick={() => navigate(`/edit/${id}`)} className="text-black" />
+                <div className="flex gap-2">
+                  <BiPencil onClick={() => navigate(`/edit/${id}`)} className="text-black dark:text-white" />
                   <BiTrash onClick={handleDeletePost} className="text-red-600" />
                 </div>
               )}

@@ -3,7 +3,7 @@
 const errorMiddleware = (err, req, res, next) => {
   const defaultError = {
     statusCode: 500, // Default to Internal Server Error
-    success: "failed",
+    success: false,
     message: err,
   };
 

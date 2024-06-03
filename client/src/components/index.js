@@ -12,6 +12,12 @@ import Navbar from "./Navbar";
 import ThemeSwitch from "./ThemeSwitch";
 import PostComments from "./PostComments";
 import Footer from "./Footer";
+import Graph from "./Graph";
+import { RecentFollowersTable, RecentPostTable } from "./Table";
+import Stats from "./Stats";
+import SideBar from "./SideBar";
+import ConfirmDialog from "./ConfirmDialog";
+import Comments from "./Comments";
 
 export {
   Navbar,
@@ -28,4 +34,11 @@ export {
   ThemeSwitch,
   PostComments,
   Footer,
+  Graph,
+  RecentFollowersTable,
+  RecentPostTable,
+  Stats,
+  SideBar,
+  ConfirmDialog,
+  Comments,
 };

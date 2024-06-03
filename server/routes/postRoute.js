@@ -18,9 +18,9 @@ import {
 const router = express.Router();
 
 // ADMIN ROUTES
-router.post("/admin-analytics", userAuth, stats);
-router.post("/admin-followers", userAuth, getFollowers);
-router.post("/admin-content", userAuth, getPostContent);
+router.get("/admin-analytics", userAuth, stats);
+router.get("/admin-followers", userAuth, getFollowers);
+router.get("/admin-content", userAuth, getPostContent);
 router.post("/create-post", userAuth, createPost);
 
 // LIKE & COMMENT ON POST

@@ -67,3 +67,114 @@ export const usePopularPosts = () => {
   }, []);
   return popular;
 };
+
+export const useComments = (id) => {
+  const [data, setData] = useState(null);
+
+  const fetchComment = async (id) => {
+    const { data } = await axios.get(`${API_URI}/posts/comments/` + id);
+
+    setData(data);
+  };
+
+  return { data, fetchComment };
+};
+
+export const useDeleteComment = (token) => {
+  const { setIsLoading } = useStore();
+  const [data, setData] = useState(null);
+
+  const deleteComment = async ({ id, postId }) => {
+    setIsLoading(true);
+    const { data } = await axios.delete(
+      `${API_URI}/posts/comment/${id}/${postId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setIsLoading(false);
+
+    setData(data);
+  };
+  return { data, deleteComment };
+};
+
+export const useContent = (toast, token) => {
+  const [data, setData] = useState(null);
+  const { setIsLoading } = useStore();
+
+  const fetchContent = async (page) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${API_URI}/posts/admin-content?page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsLoading(false);
+
+      setData(response.data);
+      toast.success(response.data.message);
+    } catch (error) {
+      const errMsg = error?.response?.data?.message;
+      toast.error(errMsg ?? error?.message);
+      if (errMsg === "Authentication failed") {
+        localStorage.removeItem("userInfo");
+      }
+    }
+  };
+
+  return { data, fetchContent };
+};
+
+export const useAction = (toast, token) => {
+  const performAction = async ({ id, status }) => {
+    try {
+      const response = await axios.put(
+        `${API_URI}/posts/update/${id}`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.message);
+    } catch (error) {
+      const errMsg = error?.response?.data?.message;
+      toast.error(errMsg ?? error?.message);
+      if (errMsg === "Authentication failed") {
+        localStorage.removeItem("userInfo");
+      }
+    }
+  };
+
+  return { performAction };
+};
+
+export const useDeletePost = (toast, token) => {
+  const deletePost = async (id) => {
+    try {
+      const response = await axios.delete(`${API_URI}/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      const errMsg = error?.response?.data?.message;
+      toast.error(errMsg ?? error?.message);
+      if (errMsg === "Authentication failed") {
+        localStorage.removeItem("userInfo");
+      }
+    }
+  };
+
+  return { deletePost };
+};

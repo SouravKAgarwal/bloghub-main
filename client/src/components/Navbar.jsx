@@ -8,10 +8,15 @@ import { getInitials } from "../utils";
 
 const MobileMenu = ({ user, signOut }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDashboardMenuOpen, setIsDashboardMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleDashboardMenu = () => {
+    setIsDashboardMenuOpen(!isDashboardMenuOpen);
   };
 
   const handleProfile = () => {
@@ -53,13 +58,38 @@ const MobileMenu = ({ user, signOut }) => {
               >
                 Home
               </Link>
-              <Link
-                className="hover:text-slate-500"
-                to="/write"
-                onClick={toggleMenu}
-              >
-                Create
-              </Link>
+              <div className="relative" onClick={toggleDashboardMenu}>
+                <div className="hover:text-slate-500">What's More</div>
+                {isDashboardMenuOpen && (
+                  <ul className="absolute left-full top-0 bg-white dark:bg-[#020b19] shadow-lg py-2">
+                    <li className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                      <Link to="/dashboard" onClick={toggleMenu}>
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                      <Link to="/analytics" onClick={toggleMenu}>
+                        Analytics
+                      </Link>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                      <Link to="/contents" onClick={toggleMenu}>
+                        Contents
+                      </Link>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                      <Link to="/followers" onClick={toggleMenu}>
+                        Followers
+                      </Link>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                      <Link to="/write" onClick={toggleMenu}>
+                        Create
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </div>
               <Link
                 className="hover:text-slate-500"
                 to="/"
@@ -167,8 +197,8 @@ const Navbar = () => {
             <Link className="hover:text-slate-500" to="/">
               Home
             </Link>
-            <Link className="hover:text-slate-500" to="/write">
-              Create
+            <Link className="hover:text-slate-500" to="/dashboard">
+              Dashboard
             </Link>
             <Link className="hover:text-slate-500" to="/">
               Contact

@@ -220,7 +220,7 @@ const EditPost = () => {
           <Button
             label="Update Post"
             type="submit"
-            styles="mt-4 py-2 px-4 bg-black text-white rounded-full"
+            styles="mt-4 py-2 px-4 bg-black text-white dark:bg-white dark:text-black rounded-full"
           />
           <Button
             label="Discard"

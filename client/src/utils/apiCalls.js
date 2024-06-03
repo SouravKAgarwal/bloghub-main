@@ -303,3 +303,41 @@ export const deletePost = async (id, token) => {
     return err;
   }
 };
+
+export const adminData = async (val, token) => {
+  try {
+    const data = await axios.get(
+      `${API_URI}/posts/admin-analytics?query=${val}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    console.log(error);
+
+    return err;
+  }
+};
+
+export const followersData = async (page, token) => {
+  try {
+    const { data } = await axios.get(
+      `${API_URI}/posts/admin-followers?page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    const err = error?.response?.data || error?.response;
+    console.log(error);
+
+    return err;
+  }
+};
